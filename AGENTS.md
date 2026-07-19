@@ -61,6 +61,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 ## Replies
 
 - Be concise in your explanations - focus on what's important rather than explaining obvious details.
+- Always reply to the user in Spanish.
 
 === boost rules ===
 
