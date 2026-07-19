@@ -4,152 +4,168 @@
 ![PHP 8.5](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)
 ![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D?logo=vuedotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![Pest 4](https://img.shields.io/badge/Pest-4-F59E0B)
-![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green)
+![Inertia.js 3](https://img.shields.io/badge/Inertia.js-3-9553E9?logo=inertia&logoColor=white)
+![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 
-Portafolio profesional de Mateo Quintero Zapata, Full Stack Developer. La aplicación combina un backend moderno en Laravel con una interfaz SPA desarrollada en Vue e Inertia.js, e incorpora un acceso administrativo seguro para gestionar el contenido del portafolio.
+Portafolio profesional de **Mateo Quintero Zapata**, Full Stack Developer enfocado en crear aplicaciones web mantenibles, seguras y centradas en las personas usuarias.
 
-## Estado del proyecto
+## Sobre el desarrollador
 
-En desarrollo activo. La base técnica, el acceso del administrador y las funciones de seguridad están implementados; el contenido y las funcionalidades del portafolio continúan evolucionando.
+Mateo Quintero Zapata es Full Stack Developer. Este proyecto refleja su enfoque para construir productos web con una arquitectura clara, una experiencia de usuario cuidada, controles de seguridad y procesos de calidad automatizados.
 
-## Tecnologías principales
+- **LinkedIn:** [Mateo Quintero Zapata](https://www.linkedin.com/in/mateo-quintero-zapata-114235204/)
+- **Correo público:** [mateoquinterozapata@gmail.com](mailto:mateoquinterozapata@gmail.com)
+- **Sitio del portafolio:** en proceso
 
-- Laravel 13 y PHP 8.5.
-- Vue 3, TypeScript e Inertia.js 3.
-- Tailwind CSS 4.
-- MySQL como base de datos del entorno Docker.
-- Docker y Laravel Sail para el entorno local.
-- Mailpit para inspeccionar correo localmente.
-- Pest 4 para pruebas automatizadas.
-- Laravel Boost y Codex como herramientas de apoyo al desarrollo.
+## Sobre el proyecto
 
-> El repositorio incluye Laravel Sail como dependencia. La instalación local descrita abajo genera la configuración de Docker Compose con MySQL y Mailpit.
+Portafolio Mateo tiene como propósito presentar el perfil, las capacidades técnicas y, progresivamente, los proyectos de Mateo a reclutadores, equipos técnicos y posibles colaboradores.
 
-## Requisitos
+El repositorio también funciona como muestra de sus prácticas de ingeniería: separación entre backend y frontend, autenticación reforzada, rutas tipadas, pruebas automatizadas, análisis estático y formato consistente. El contenido público definitivo del portafolio todavía está en desarrollo.
 
-- Windows con WSL2 habilitado.
-- Una distribución Linux instalada en WSL2.
-- Docker Desktop con la integración de WSL2 habilitada.
+## Funcionalidades principales
+
+| Estado       | Funcionalidad              | Detalle                                                                                                                          |
+| ------------ | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Implementado | Base adaptable             | La interfaz actual usa Vue y Tailwind CSS con comportamiento adaptable; el diseño definitivo del portafolio sigue en desarrollo. |
+| Planificado  | Flujo de contacto          | No existe todavía formulario, endpoint ni persistencia de mensajes de contacto.                                                  |
+| Implementado | Administrador único        | El administrador se crea de forma idempotente mediante el seeder y variables de entorno.                                         |
+| Implementado | Recuperación de contraseña | Fortify gestiona la solicitud y el restablecimiento de contraseña.                                                               |
+| Implementado | Confirmación de contraseña | Las operaciones sensibles requieren una confirmación reciente.                                                                   |
+| Implementado | Segundo factor TOTP        | Incluye activación, confirmación, desafío, código QR y códigos de recuperación.                                                  |
+| Implementado | Sin registro público       | Las rutas de registro y verificación pública de correo están deshabilitadas.                                                     |
+| Implementado | Calidad automatizada       | Pest, PHPStan/Larastan, Pint, ESLint, Prettier y comprobación de tipos forman parte del flujo de validación.                     |
+
+## Arquitectura técnica
+
+| Tecnología                 | Función en el proyecto                                                                                         |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Laravel 13 y PHP 8.5       | Backend, rutas, validación, sesiones, acceso a datos y lógica de aplicación.                                   |
+| Laravel Fortify            | Autenticación sin interfaz acoplada, recuperación de contraseña, confirmación y TOTP.                          |
+| Vue 3 y TypeScript         | Componentes de interfaz con tipado estático.                                                                   |
+| Inertia.js 3               | Integración entre Laravel y Vue sin mantener una API SPA separada.                                             |
+| Tailwind CSS 4 y Reka UI   | Estilos, diseño adaptable y componentes accesibles.                                                            |
+| Vite                       | Servidor de desarrollo y compilación optimizada del frontend.                                                  |
+| Laravel Wayfinder          | Generación de funciones TypeScript tipadas para rutas y controladores de Laravel.                              |
+| SQLite                     | Configuración inicial de <code>.env.example</code> y base en memoria para pruebas.                             |
+| MySQL 8.4                  | Base de datos opcional del entorno Sail, disponible después de generar Docker Compose.                         |
+| Docker y Laravel Sail      | Entorno local reproducible; Sail está instalado, pero el archivo Compose no está versionado.                   |
+| Mailpit                    | Captura de correo local opcional, disponible al generar Sail con el servicio <code>mailpit</code>.             |
+| Pest 4                     | Pruebas unitarias y de funcionalidad.                                                                          |
+| PHPStan/Larastan y Pint    | Análisis estático y formato del backend.                                                                       |
+| ESLint, Prettier y Vue TSC | Linting, formato y comprobación de tipos del frontend.                                                         |
+| Laravel Boost y Codex      | Apoyo al desarrollo y acceso al contexto técnico del proyecto; no son dependencias de ejecución en producción. |
+
+## Seguridad
+
+- El sistema está diseñado para un solo administrador y no ofrece registro público.
+- Las credenciales administrativas se leen desde <code>.env</code> y no se incluyen en el repositorio.
+- Las contraseñas se almacenan mediante el sistema de hashing de Laravel.
+- TOTP añade un segundo factor con confirmación y códigos de recuperación.
+- La recuperación y la confirmación de contraseña usan los flujos de Laravel Fortify.
+- El inicio de sesión y el desafío de segundo factor tienen limitación de intentos.
+- <code>.env</code>, claves privadas, tokens y archivos de almacenamiento sensibles están excluidos de Git.
+
+## Instalación local
+
+### Requisitos
+
+- Windows con WSL2 y una distribución Linux.
+- Docker Desktop con integración para WSL2.
 - Git, PHP 8.5 y Composer disponibles dentro de WSL2 para preparar Sail.
 
-## Instalación local con WSL2 y Laravel Sail
+### Preparación
 
-Ejecuta los comandos desde una terminal WSL2, dentro del directorio del proyecto:
+Ejecuta estos comandos desde una terminal WSL2:
 
 ```bash
+git clone https://github.com/mateo1761/portfolio-mateo.git
+cd portfolio-mateo
 composer install
 cp .env.example .env
 php artisan key:generate
 php artisan sail:install --with=mysql,mailpit --php=8.5 --no-interaction
+```
+
+El repositorio no incluye actualmente un archivo Docker Compose. El último comando lo genera localmente y configura <code>.env</code> para MySQL y Mailpit; esos servicios no están disponibles antes de completar este paso.
+
+Configura valores propios antes de ejecutar el seeder:
+
+```dotenv
+ADMIN_NAME="<nombre del administrador>"
+ADMIN_EMAIL="<correo del administrador>"
+ADMIN_PASSWORD="<contraseña segura y exclusiva>"
+```
+
+No reutilices credenciales de producción ni confirmes <code>.env</code> en Git.
+
+### Inicio
+
+```bash
 ./vendor/bin/sail up -d
 ./vendor/bin/sail npm install
 ./vendor/bin/sail artisan migrate
 ./vendor/bin/sail artisan db:seed --class=DatabaseSeeder
-```
-
-Laravel Sail crea los servicios locales de MySQL y Mailpit. Para detener los contenedores:
-
-```bash
-./vendor/bin/sail down
-```
-
-## Configuración del entorno
-
-Usa `.env.example` como plantilla y conserva `.env` únicamente en tu entorno local:
-
-```bash
-cp .env.example .env
-```
-
-Después de instalar Sail, revisa las variables `APP_*`, `DB_*` y `MAIL_*` generadas para los servicios locales. Configura también las variables del único administrador con valores propios y seguros:
-
-```dotenv
-ADMIN_NAME="Nombre del administrador"
-ADMIN_EMAIL="correo del administrador"
-ADMIN_PASSWORD="contraseña larga, única y segura"
-```
-
-No confirmes `.env` en Git ni reutilices credenciales de producción en el entorno local.
-
-## Comandos de desarrollo
-
-Todos los comandos siguientes se ejecutan desde WSL2 con los contenedores de Sail activos.
-
-### Base de datos
-
-Ejecutar migraciones:
-
-```bash
-./vendor/bin/sail artisan migrate
-```
-
-Crear el administrador configurado en `.env` mediante el seeder idempotente:
-
-```bash
-./vendor/bin/sail artisan db:seed --class=DatabaseSeeder
-```
-
-### Frontend
-
-Iniciar Vite en modo desarrollo:
-
-```bash
 ./vendor/bin/sail npm run dev
 ```
 
-Generar los recursos optimizados para producción:
+Después de generar y levantar la configuración de Sail:
 
-```bash
-./vendor/bin/sail npm run build
-```
+- La aplicación usa <code>APP_URL</code> y <code>APP_PORT</code>; con los valores predeterminados se abre en <code>http://localhost</code>.
+- Mailpit usa <code>FORWARD_MAILPIT_DASHBOARD_PORT</code>; el valor predeterminado generado por Sail es <code>http://localhost:8025</code>.
 
-### Pruebas y análisis
+Si cambias esos puertos en <code>.env</code>, utiliza los valores configurados localmente.
 
-Ejecutar las comprobaciones del backend y la suite de Pest:
+## Comandos de desarrollo
 
-```bash
-./vendor/bin/sail composer test
-```
+Los comandos se ejecutan desde la raíz del proyecto con Sail activo.
 
-Ejecutar todas las comprobaciones de integración continua:
+| Tarea                                | Comando                                                               |
+| ------------------------------------ | --------------------------------------------------------------------- |
+| Iniciar contenedores                 | <code>./vendor/bin/sail up -d</code>                                  |
+| Detener contenedores                 | <code>./vendor/bin/sail down</code>                                   |
+| Ejecutar migraciones                 | <code>./vendor/bin/sail artisan migrate</code>                        |
+| Crear el administrador               | <code>./vendor/bin/sail artisan db:seed --class=DatabaseSeeder</code> |
+| Iniciar Vite                         | <code>./vendor/bin/sail npm run dev</code>                            |
+| Ejecutar pruebas y controles backend | <code>./vendor/bin/sail composer test</code>                          |
+| Ejecutar todos los controles de CI   | <code>./vendor/bin/sail composer ci:check</code>                      |
+| Comprobar tipos del frontend         | <code>./vendor/bin/sail npm run types:check</code>                    |
+| Comprobar PHP con PHPStan            | <code>./vendor/bin/sail composer types:check</code>                   |
+| Comprobar formato PHP                | <code>./vendor/bin/sail composer lint:check</code>                    |
+| Aplicar formato PHP                  | <code>./vendor/bin/sail composer lint</code>                          |
+| Comprobar ESLint                     | <code>./vendor/bin/sail npm run lint:check</code>                     |
+| Aplicar correcciones ESLint          | <code>./vendor/bin/sail npm run lint</code>                           |
+| Comprobar Prettier                   | <code>./vendor/bin/sail npm run format:check</code>                   |
+| Aplicar Prettier                     | <code>./vendor/bin/sail npm run format</code>                         |
+| Generar build de producción          | <code>./vendor/bin/sail npm run build</code>                          |
 
-```bash
-./vendor/bin/sail composer ci:check
-```
+## Estado del proyecto y hoja de ruta
 
-### Linting y formato
+### Implementado
 
-Comprobar el estilo de PHP y el frontend sin modificar archivos:
+- Base Laravel, Vue, TypeScript e Inertia con diseño adaptable.
+- Inicio y cierre de sesión para el administrador.
+- Recuperación, actualización y confirmación de contraseña.
+- Autenticación TOTP y códigos de recuperación.
+- Gestión básica del perfil y preferencias de apariencia.
+- Pruebas automatizadas y herramientas de calidad.
 
-```bash
-./vendor/bin/sail composer lint:check
-./vendor/bin/sail npm run lint:check
-./vendor/bin/sail npm run format:check
-```
+### Pendiente
 
-Aplicar el formato configurado para PHP y el frontend:
+- Sustituir la pantalla inicial del starter kit por la experiencia visual definitiva del portafolio.
+- Incorporar las secciones públicas de perfil, habilidades y proyectos.
+- Diseñar e implementar el flujo de contacto.
+- Confirmar y publicar los enlaces de contacto profesionales.
+- Definir y añadir formalmente la licencia del repositorio.
 
-```bash
-./vendor/bin/sail composer lint
-./vendor/bin/sail npm run lint
-./vendor/bin/sail npm run format
-```
+## Autor y contacto
 
-## Autenticación
+**Mateo Quintero Zapata — Full Stack Developer**
 
-La autenticación está implementada con Laravel Fortify y está orientada a un único administrador:
-
-- El administrador se crea mediante `DatabaseSeeder` usando las variables `ADMIN_NAME`, `ADMIN_EMAIL` y `ADMIN_PASSWORD`.
-- No existe registro público ni verificación pública de correo.
-- Incluye inicio y cierre de sesión, recuperación de contraseña y confirmación de contraseña para operaciones sensibles.
-- Admite autenticación de dos factores mediante TOTP, con código QR, confirmación y códigos de recuperación.
-- El inicio de sesión y el desafío de segundo factor cuentan con limitación de intentos.
-
-## Autor
-
-**Mateo Quintero Zapata**, Full Stack Developer.
+- **LinkedIn:** [Mateo Quintero Zapata](https://www.linkedin.com/in/mateo-quintero-zapata-114235204/)
+- **Correo público:** [mateoquinterozapata@gmail.com](mailto:mateoquinterozapata@gmail.com)
+- **Portafolio:** en proceso
 
 ## Licencia
 
-Este proyecto está configurado bajo la licencia MIT.
+El repositorio no contiene actualmente un archivo <code>LICENSE</code>. Aunque <code>composer.json</code> declara <code>MIT</code> en sus metadatos, debe añadirse un texto de licencia explícito antes de presentar el proyecto como licenciado públicamente.
