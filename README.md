@@ -47,10 +47,10 @@ El repositorio también funciona como muestra de sus prácticas de ingeniería: 
 | Tailwind CSS 4 y Reka UI   | Estilos, diseño adaptable y componentes accesibles.                                                            |
 | Vite                       | Servidor de desarrollo y compilación optimizada del frontend.                                                  |
 | Laravel Wayfinder          | Generación de funciones TypeScript tipadas para rutas y controladores de Laravel.                              |
-| SQLite                     | Configuración inicial de <code>.env.example</code> y base en memoria para pruebas.                             |
-| MySQL 8.4                  | Base de datos opcional del entorno Sail, disponible después de generar Docker Compose.                         |
-| Docker y Laravel Sail      | Entorno local reproducible; Sail está instalado, pero el archivo Compose no está versionado.                   |
-| Mailpit                    | Captura de correo local opcional, disponible al generar Sail con el servicio <code>mailpit</code>.             |
+| SQLite                     | Base de datos aislada en memoria para las pruebas automatizadas.                                               |
+| MySQL 8.4                  | Base de datos persistente del entorno local Sail.                                                              |
+| Docker y Laravel Sail      | Entorno local reproducible con PHP 8.5, MySQL y Mailpit.                                                       |
+| Mailpit                    | Captura y previsualización de correo durante el desarrollo local.                                              |
 | Pest 4                     | Pruebas unitarias y de funcionalidad.                                                                          |
 | PHPStan/Larastan y Pint    | Análisis estático y formato del backend.                                                                       |
 | ESLint, Prettier y Vue TSC | Linting, formato y comprobación de tipos del frontend.                                                         |
@@ -72,7 +72,8 @@ El repositorio también funciona como muestra de sus prácticas de ingeniería: 
 
 - Windows con WSL2 y una distribución Linux.
 - Docker Desktop con integración para WSL2.
-- Git, PHP 8.5 y Composer disponibles dentro de WSL2 para preparar Sail.
+- Git disponible dentro de WSL2.
+- Asignar a WSL2 un máximo aproximado de 3 GB de RAM y 2 CPU es suficiente para los tres servicios configurados.
 
 ### Preparación
 
@@ -81,13 +82,16 @@ Ejecuta estos comandos desde una terminal WSL2:
 ```bash
 git clone https://github.com/mateo1761/portfolio-mateo.git
 cd portfolio-mateo
-composer install
+docker run --rm \
+    --user "$(id -u):$(id -g)" \
+    --volume "$(pwd):/var/www/html" \
+    --workdir /var/www/html \
+    laravelsail/php85-composer:latest \
+    composer install --ignore-platform-reqs
 cp .env.example .env
-php artisan key:generate
-php artisan sail:install --with=mysql,mailpit --php=8.5 --no-interaction
 ```
 
-El repositorio no incluye actualmente un archivo Docker Compose. El último comando lo genera localmente y configura <code>.env</code> para MySQL y Mailpit; esos servicios no están disponibles antes de completar este paso.
+El archivo <code>compose.yaml</code> ya está versionado y contiene únicamente la aplicación Laravel, MySQL y Mailpit. No ejecutes <code>sail:install</code>: no es necesario y podría reemplazar esta configuración mínima.
 
 Configura valores propios antes de ejecutar el seeder:
 
@@ -102,17 +106,21 @@ No reutilices credenciales de producción ni confirmes <code>.env</code> en Git.
 ### Inicio
 
 ```bash
-./vendor/bin/sail up -d
+./vendor/bin/sail up -d --build
+./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail npm install
 ./vendor/bin/sail artisan migrate
 ./vendor/bin/sail artisan db:seed --class=DatabaseSeeder
 ./vendor/bin/sail npm run dev
 ```
 
-Después de generar y levantar la configuración de Sail:
+<code>migrate</code> ejecuta únicamente migraciones pendientes; no uses <code>migrate:fresh</code> ni elimines el volumen de MySQL. El seeder es idempotente, pero requiere que <code>ADMIN_NAME</code>, <code>ADMIN_EMAIL</code> y <code>ADMIN_PASSWORD</code> tengan valores locales válidos.
 
-- La aplicación usa <code>APP_URL</code> y <code>APP_PORT</code>; con los valores predeterminados se abre en <code>http://localhost</code>.
-- Mailpit usa <code>FORWARD_MAILPIT_DASHBOARD_PORT</code>; el valor predeterminado generado por Sail es <code>http://localhost:8025</code>.
+- Verifica Sail primero en <code>http://localhost:8080</code>.
+- Vite escucha en <code>http://localhost:5173</code> y su HMR es accesible desde el navegador de Windows.
+- MySQL se publica en <code>localhost:3306</code> y conserva los datos en el volumen nombrado <code>sail-mysql</code>.
+- Mailpit recibe SMTP en <code>localhost:1025</code> y su interfaz abre en <code>http://localhost:8025</code>.
+- <code>APP_URL=http://portfolio-mateo.test</code> prepara la generación de URLs para el dominio local planeado. La configuración de Nginx y de los puertos 80/443 se realizará por separado.
 
 Si cambias esos puertos en <code>.env</code>, utiliza los valores configurados localmente.
 
@@ -120,24 +128,32 @@ Si cambias esos puertos en <code>.env</code>, utiliza los valores configurados l
 
 Los comandos se ejecutan desde la raíz del proyecto con Sail activo.
 
-| Tarea                                | Comando                                                               |
-| ------------------------------------ | --------------------------------------------------------------------- |
-| Iniciar contenedores                 | <code>./vendor/bin/sail up -d</code>                                  |
-| Detener contenedores                 | <code>./vendor/bin/sail down</code>                                   |
-| Ejecutar migraciones                 | <code>./vendor/bin/sail artisan migrate</code>                        |
-| Crear el administrador               | <code>./vendor/bin/sail artisan db:seed --class=DatabaseSeeder</code> |
-| Iniciar Vite                         | <code>./vendor/bin/sail npm run dev</code>                            |
-| Ejecutar pruebas y controles backend | <code>./vendor/bin/sail composer test</code>                          |
-| Ejecutar todos los controles de CI   | <code>./vendor/bin/sail composer ci:check</code>                      |
-| Comprobar tipos del frontend         | <code>./vendor/bin/sail npm run types:check</code>                    |
-| Comprobar PHP con PHPStan            | <code>./vendor/bin/sail composer types:check</code>                   |
-| Comprobar formato PHP                | <code>./vendor/bin/sail composer lint:check</code>                    |
-| Aplicar formato PHP                  | <code>./vendor/bin/sail composer lint</code>                          |
-| Comprobar ESLint                     | <code>./vendor/bin/sail npm run lint:check</code>                     |
-| Aplicar correcciones ESLint          | <code>./vendor/bin/sail npm run lint</code>                           |
-| Comprobar Prettier                   | <code>./vendor/bin/sail npm run format:check</code>                   |
-| Aplicar Prettier                     | <code>./vendor/bin/sail npm run format</code>                         |
-| Generar build de producción          | <code>./vendor/bin/sail npm run build</code>                          |
+| Tarea                               | Comando                                                               |
+| ----------------------------------- | --------------------------------------------------------------------- |
+| Iniciar y construir contenedores    | <code>./vendor/bin/sail up -d --build</code>                          |
+| Iniciar contenedores ya construidos | <code>./vendor/bin/sail up -d</code>                                  |
+| Detener contenedores                | <code>./vendor/bin/sail stop</code>                                   |
+| Instalar dependencias PHP           | <code>./vendor/bin/sail composer install</code>                       |
+| Instalar dependencias JavaScript    | <code>./vendor/bin/sail npm install</code>                            |
+| Consultar migraciones               | <code>./vendor/bin/sail artisan migrate:status</code>                 |
+| Ejecutar migraciones pendientes     | <code>./vendor/bin/sail artisan migrate</code>                        |
+| Crear el administrador              | <code>./vendor/bin/sail artisan db:seed --class=DatabaseSeeder</code> |
+| Iniciar Vite                        | <code>./vendor/bin/sail npm run dev</code>                            |
+| Ejecutar pruebas                    | <code>./vendor/bin/sail artisan test --compact</code>                 |
+| Comprobar PHP con PHPStan           | <code>./vendor/bin/sail composer types:check</code>                   |
+| Comprobar formato PHP               | <code>./vendor/bin/sail composer lint:check</code>                    |
+| Aplicar formato PHP                 | <code>./vendor/bin/sail composer lint</code>                          |
+| Comprobar ESLint                    | <code>./vendor/bin/sail npm run lint:check</code>                     |
+| Aplicar correcciones ESLint         | <code>./vendor/bin/sail npm run lint</code>                           |
+| Comprobar Prettier                  | <code>./vendor/bin/sail npm run format:check</code>                   |
+| Aplicar Prettier                    | <code>./vendor/bin/sail npm run format</code>                         |
+| Comprobar tipos del frontend        | <code>./vendor/bin/sail npm run types:check</code>                    |
+| Generar build de producción         | <code>./vendor/bin/sail npm run build</code>                          |
+| Ver estado                          | <code>./vendor/bin/sail ps</code>                                     |
+| Ver y seguir logs                   | <code>./vendor/bin/sail logs -f</code>                                |
+| Abrir Mailpit                       | <code>http://localhost:8025</code>                                    |
+
+Ejecuta pruebas, lint, formato, comprobaciones de tipos y build uno por uno para reducir el consumo de memoria en WSL2.
 
 ## Estado del proyecto y hoja de ruta
 
