@@ -48,8 +48,8 @@ El repositorio también funciona como muestra de sus prácticas de ingeniería: 
 | Vite                       | Servidor de desarrollo y compilación optimizada del frontend.                                                  |
 | Laravel Wayfinder          | Generación de funciones TypeScript tipadas para rutas y controladores de Laravel.                              |
 | SQLite                     | Base de datos aislada en memoria para las pruebas automatizadas.                                               |
-| MySQL 8.4                  | Base de datos persistente del entorno local Sail.                                                              |
-| Docker y Laravel Sail      | Entorno local reproducible con PHP 8.5, MySQL y Mailpit.                                                       |
+| PostgreSQL 16              | Base de datos persistente del entorno local Sail.                                                              |
+| Docker y Laravel Sail      | Entorno local reproducible con PHP 8.5, PostgreSQL y Mailpit.                                                  |
 | Mailpit                    | Captura y previsualización de correo durante el desarrollo local.                                              |
 | Pest 4                     | Pruebas unitarias y de funcionalidad.                                                                          |
 | PHPStan/Larastan y Pint    | Análisis estático y formato del backend.                                                                       |
@@ -91,7 +91,7 @@ docker run --rm \
 cp .env.example .env
 ```
 
-El archivo <code>compose.yaml</code> ya está versionado y contiene únicamente la aplicación Laravel, MySQL y Mailpit. No ejecutes <code>sail:install</code>: no es necesario y podría reemplazar esta configuración mínima.
+El archivo <code>compose.yaml</code> ya está versionado y contiene únicamente la aplicación Laravel, PostgreSQL y Mailpit. No ejecutes <code>sail:install</code>: no es necesario y podría reemplazar esta configuración mínima.
 
 Configura valores propios antes de ejecutar el seeder:
 
@@ -114,11 +114,11 @@ No reutilices credenciales de producción ni confirmes <code>.env</code> en Git.
 ./vendor/bin/sail npm run dev
 ```
 
-<code>migrate</code> ejecuta únicamente migraciones pendientes; no uses <code>migrate:fresh</code> ni elimines el volumen de MySQL. El seeder es idempotente, pero requiere que <code>ADMIN_NAME</code>, <code>ADMIN_EMAIL</code> y <code>ADMIN_PASSWORD</code> tengan valores locales válidos.
+<code>migrate</code> ejecuta únicamente migraciones pendientes; no uses <code>migrate:fresh</code> ni elimines el volumen de PostgreSQL. El seeder es idempotente, pero requiere que <code>ADMIN_NAME</code>, <code>ADMIN_EMAIL</code> y <code>ADMIN_PASSWORD</code> tengan valores locales válidos.
 
 - Verifica Sail primero en <code>http://localhost:8080</code>.
 - Vite escucha en <code>http://localhost:5173</code> y su HMR es accesible desde el navegador de Windows.
-- MySQL se publica en <code>localhost:3306</code> y conserva los datos en el volumen nombrado <code>sail-mysql</code>.
+- PostgreSQL se publica en <code>localhost:5432</code> por defecto y conserva los datos en el volumen nombrado <code>sail-pgsql</code>.
 - Mailpit recibe SMTP en <code>localhost:1025</code> y su interfaz abre en <code>http://localhost:8025</code>.
 - <code>APP_URL=http://portfolio-mateo.test</code> prepara la generación de URLs para el dominio local planeado. La configuración de Nginx y de los puertos 80/443 se realizará por separado.
 
