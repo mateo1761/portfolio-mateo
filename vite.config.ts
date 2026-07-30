@@ -23,6 +23,12 @@ export default defineConfig({
         origin: hasLocalCertificate
             ? 'https://portfolio-mateo.test:5173'
             : undefined,
+        cors: {
+            origin: [
+                'https://portfolio-mateo.test',
+                'http://localhost:8080',
+            ],
+        },
         hmr: {
             host: process.env.VITE_HMR_HOST ?? 'portfolio-mateo.test',
             protocol: hasLocalCertificate ? 'wss' : 'ws',

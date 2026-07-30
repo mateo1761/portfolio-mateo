@@ -59,6 +59,13 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-portfolio-background: var(--portfolio-background);
+    --color-portfolio-surface: var(--portfolio-surface);
+    --color-portfolio-text: var(--portfolio-text);
+    --color-portfolio-muted: var(--portfolio-muted);
+    --color-portfolio-gold: var(--portfolio-gold);
+    --color-portfolio-divider: var(--portfolio-divider);
 }
 
 /*
@@ -124,6 +131,12 @@
     --sidebar-border: hsl(0 0% 91%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
     --sidebar: hsl(0 0% 98%);
+    --portfolio-background: #0d1722;
+    --portfolio-surface: #142233;
+    --portfolio-text: #f4f1ea;
+    --portfolio-muted: #aeb7c2;
+    --portfolio-gold: #c39a3c;
+    --portfolio-divider: rgb(174 183 194 / 0.18);
 }
 
 .dark {
@@ -169,4 +182,14 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+html {
+    scroll-padding-top: 6rem;
 }

@@ -1,6 +1,6 @@
 # Desarrollo local
 
-Esta guía describe el entorno oficial de Portfolio Mateo. La aplicación completa se ejecuta con Docker Compose y Laravel Sail dentro de WSL2.
+Esta guía describe el entorno oficial de Portafolio Mateo. La aplicación completa se ejecuta con Docker Compose y Laravel Sail dentro de WSL2.
 
 ## Requisitos
 

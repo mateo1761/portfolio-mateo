@@ -1,16 +1,51 @@
 # Portafolio Mateo
 
-Portafolio profesional de **Mateo Quintero Zapata**, full-stack developer enfocado en construir aplicaciones web mantenibles, seguras y centradas en las personas usuarias.
+![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
+![PHP 8.5](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)
+![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D?logo=vuedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Inertia.js 3](https://img.shields.io/badge/Inertia.js-3-9553E9?logo=inertia&logoColor=white)
+![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Sail_+_Nginx-2496ED?logo=docker&logoColor=white)
 
-## Tecnología
+Portafolio profesional de **Mateo Quintero Zapata**, full-stack developer enfocado en construir productos web mantenibles, seguros y centrados en las personas usuarias.
 
-- Laravel 13 y PHP 8.5
-- Vue 3, TypeScript, Inertia.js 3 y Tailwind CSS 4
-- Laravel Fortify con autenticación TOTP
-- PostgreSQL 16 y Mailpit
-- Docker Compose, Laravel Sail y Nginx
-- Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC
-- Laravel Boost y Codex para asistencia de desarrollo
+Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funciona como una muestra práctica de cómo estructuro una aplicación moderna: arquitectura clara, autenticación reforzada, frontend tipado, entorno reproducible y calidad automatizada.
+
+> Una base técnica sólida para convertir experiencia profesional en una presentación digital cuidada.
+
+## Lo que demuestra el proyecto
+
+- Integración full-stack con Laravel, Inertia y Vue sin mantener una API SPA separada.
+- Autenticación de administrador con recuperación de contraseña, confirmación y segundo factor TOTP.
+- Interfaz adaptable construida con TypeScript, Tailwind CSS y componentes accesibles.
+- Desarrollo local reproducible mediante Docker Compose, Laravel Sail y HTTPS confiable.
+- Persistencia con PostgreSQL y pruebas aisladas con SQLite en memoria.
+- Calidad continua con Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC.
+
+## Funcionalidades
+
+| Estado | Funcionalidad |
+| --- | --- |
+| Implementado | Inicio y cierre de sesión para un administrador único |
+| Implementado | Recuperación, actualización y confirmación de contraseña |
+| Implementado | Segundo factor TOTP, QR y códigos de recuperación |
+| Implementado | Perfil, apariencia y navegación con Inertia |
+| Implementado | Entorno Docker con Nginx, HTTPS, PostgreSQL y Mailpit |
+| Implementado | Portada profesional, proyectos y formulario de contacto |
+
+## Arquitectura
+
+| Capa | Tecnología |
+| --- | --- |
+| Backend | Laravel 13, PHP 8.5 y Laravel Fortify |
+| Frontend | Vue 3, TypeScript, Inertia.js 3 y Tailwind CSS 4 |
+| Datos | PostgreSQL 16 en desarrollo y SQLite en CI |
+| Infraestructura local | Docker Compose, Laravel Sail, Nginx y mkcert |
+| Correo local | Mailpit |
+| Calidad | Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC |
+| Asistencia técnica | Laravel Boost, MCP y Codex |
 
 ## Entorno local oficial
 
@@ -23,9 +58,11 @@ Docker Compose con Laravel Sail administra cuatro servicios:
 | `postgres` | Base de datos PostgreSQL persistente |
 | `mailpit` | Captura local de correo SMTP |
 
-Cada desarrollador genera sus propios certificados de confianza con mkcert. Los certificados y secretos locales nunca se guardan en Git.
+Cada desarrollador genera sus propios certificados de confianza con mkcert. Los certificados, credenciales y secretos locales nunca se guardan en Git.
 
-Consulta:
+El destinatario del formulario público se configura localmente mediante `CONTACT_MAIL_TO`; durante el desarrollo, los mensajes pueden verificarse en Mailpit.
+
+### Documentación
 
 - [Guía completa de desarrollo local](docs/local-development.md)
 - [Solución de problemas](docs/troubleshooting.md)
@@ -57,9 +94,11 @@ La aplicación abre en `https://portfolio-mateo.test`. El acceso `http://localho
 
 GitHub Actions ejecuta las comprobaciones con SQLite en memoria y no depende de Docker ni PostgreSQL.
 
-## Estado
+## Próximos pasos
 
-El proyecto incluye autenticación de administrador, recuperación y confirmación de contraseña, gestión de perfil y segundo factor TOTP. El contenido público definitivo del portafolio y el flujo de contacto continúan en desarrollo.
+- Incorporar una fotografía profesional.
+- Publicar una versión descargable del CV.
+- Añadir el texto formal de licencia.
 
 ## Autor
 
