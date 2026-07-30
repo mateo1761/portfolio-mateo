@@ -38,7 +38,16 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
         <x-inertia::head>
-            <title>{{ config('app.name', 'Laravel') }}</title>
+            @if ($page['component'] === 'Welcome')
+                <title data-inertia>{{ $page['props']['seo']['title'] }}</title>
+                <meta data-inertia="description" name="description" content="{{ $page['props']['seo']['description'] }}">
+                <meta data-inertia="og:type" property="og:type" content="website">
+                <meta data-inertia="og:title" property="og:title" content="{{ $page['props']['seo']['title'] }}">
+                <meta data-inertia="og:description" property="og:description" content="{{ $page['props']['seo']['description'] }}">
+                <meta data-inertia="og:locale" property="og:locale" content="es_CO">
+            @else
+                <title data-inertia>{{ config('app.name', 'Laravel') }}</title>
+            @endif
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">

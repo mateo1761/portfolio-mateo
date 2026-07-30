@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ArrowDown, MapPin } from '@lucide/vue';
+import mateoPortrait from '@/../images/mateo-quintero.webp';
 </script>
 
 <template>
@@ -46,13 +47,14 @@ import { ArrowDown, MapPin } from '@lucide/vue';
                     <ArrowDown class="size-4" aria-hidden="true" />
                 </a>
 
-                <span
-                    class="inline-flex min-h-12 cursor-not-allowed items-center border border-portfolio-divider px-6 font-medium text-portfolio-muted opacity-70"
-                    aria-disabled="true"
-                    title="El archivo público del CV está pendiente"
+                <a
+                    href="/documents/Hoja_de_vida_Mateo_Quintero_2026.pdf"
+                    download="Hoja-de-vida-Mateo-Quintero.pdf"
+                    aria-label="Descargar hoja de vida de Mateo Quintero en formato PDF"
+                    class="inline-flex min-h-12 items-center border border-portfolio-divider px-6 font-medium text-portfolio-text transition-colors outline-none hover:border-portfolio-gold hover:text-portfolio-gold focus-visible:ring-2 focus-visible:ring-portfolio-gold motion-reduce:transition-none"
                 >
                     Descargar CV
-                </span>
+                </a>
 
                 <a
                     href="https://www.linkedin.com/in/mateo-quintero-zapata-114235204"
@@ -67,22 +69,16 @@ import { ArrowDown, MapPin } from '@lucide/vue';
         </div>
 
         <div class="flex justify-center lg:justify-end">
-            <div
-                class="relative flex aspect-square w-full max-w-80 items-center justify-center rounded-full border border-portfolio-divider bg-portfolio-surface"
-                role="img"
-                aria-label="Monograma MQ; fotografía profesional pendiente"
-            >
-                <span
-                    class="font-mono text-7xl font-semibold tracking-[-0.08em] text-portfolio-gold sm:text-8xl"
-                    aria-hidden="true"
-                >
-                    MQ
-                </span>
-                <span
-                    class="absolute right-8 bottom-8 size-3 rounded-full bg-portfolio-gold"
-                    aria-hidden="true"
-                />
-            </div>
+            <img
+                :src="mateoPortrait"
+                alt="Retrato profesional de Mateo Quintero Zapata"
+                width="800"
+                height="800"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                class="aspect-square w-full max-w-80 rounded-full border border-portfolio-divider bg-portfolio-surface object-cover"
+            />
         </div>
     </section>
 </template>

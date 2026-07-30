@@ -35,7 +35,6 @@ services:
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-8080}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER:-1000}'
             LARAVEL_SAIL: 1
@@ -56,6 +55,32 @@ services:
                 [
                     'CMD-SHELL',
                     'curl --fail --silent --show-error http://127.0.0.1/ > /dev/null || exit 1',
+                ]
+            interval: 5s
+            timeout: 5s
+            retries: 12
+            start_period: 10s
+
+    vite:
+        image: sail-8.5/portfolio-mateo
+        command: npm run dev
+        ports:
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            WWWUSER: '${WWWUSER:-1000}'
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            laravel.test:
+                condition: service_healthy
+        healthcheck:
+            test:
+                [
+                    'CMD-SHELL',
+                    'curl --fail --silent --show-error --insecure https://127.0.0.1:5173/@vite/client > /dev/null || exit 1',
                 ]
             interval: 5s
             timeout: 5s

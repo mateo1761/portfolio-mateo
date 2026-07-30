@@ -11,25 +11,27 @@ import PublicFooter from '@/components/public/PublicFooter.vue';
 import PublicHeader from '@/components/public/PublicHeader.vue';
 import { Toaster } from '@/components/ui/sonner';
 
-const pageTitle = 'Mateo Quintero Zapata | Desarrollador Full Stack';
-const pageDescription =
-    'Desarrollador Full Stack Mid-Senior especializado en PHP, Laravel, JavaScript y Vue.js, con experiencia en automatización, integraciones y aplicaciones empresariales.';
+defineProps<{
+    seo: {
+        title: string;
+        description: string;
+    };
+}>();
 </script>
 
 <template>
-    <Head>
-        <title>{{ pageTitle }}</title>
+    <Head :title="seo.title">
         <meta
             head-key="description"
             name="description"
-            :content="pageDescription"
+            :content="seo.description"
         />
         <meta head-key="og:type" property="og:type" content="website" />
-        <meta head-key="og:title" property="og:title" :content="pageTitle" />
+        <meta head-key="og:title" property="og:title" :content="seo.title" />
         <meta
             head-key="og:description"
             property="og:description"
-            :content="pageDescription"
+            :content="seo.description"
         />
         <meta head-key="og:locale" property="og:locale" content="es_CO" />
     </Head>
