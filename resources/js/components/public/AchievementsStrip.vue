@@ -1,8 +1,14 @@
 <script setup lang="ts">
 const achievements = [
     { value: '+600', label: 'usuarios beneficiados' },
-    { value: '50%', label: 'menos tiempo en generación de reportes' },
-    { value: '40%', label: 'de mejora en tiempos de respuesta' },
+    {
+        value: '≈50%',
+        label: 'menos tiempo en la generación de reportes',
+    },
+    {
+        value: '≈40%',
+        label: 'de mejora en tiempos de respuesta tras una migración',
+    },
     { value: 'Más de 4 años', label: 'de experiencia' },
 ] as const;
 </script>

@@ -7,7 +7,7 @@ const projects = [
         category: 'Sistema empresarial · Proyecto privado',
         title: 'Sistema de reportes dinámicos',
         description:
-            'Plataforma utilizada por más de 600 usuarios que redujo en un 50% el tiempo de generación de informes mediante filtros avanzados y conexiones dinámicas con bases de datos.',
+            'Plataforma utilizada por más de 600 usuarios que redujo aproximadamente un 50% el tiempo de generación de informes mediante filtros avanzados y conexiones dinámicas con bases de datos.',
         technologies: 'Laravel · Vue.js · SQL Server · APIs',
         private: true,
     },
