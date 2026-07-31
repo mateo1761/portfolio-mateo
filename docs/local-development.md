@@ -149,10 +149,13 @@ En una instalación nueva, después de copiar los certificados, inicia primero L
 ./vendor/bin/sail up -d nginx
 ```
 
-En los siguientes arranques inicia el entorno completo:
+En los siguientes arranques inicia el entorno completo, confirma que los servicios estén saludables y abre Codex desde la raíz:
 
 ```bash
-./vendor/bin/sail up -d
+cd ~/code/portfolio-mateo
+docker compose up -d
+docker compose ps
+codex
 ```
 
 Detén los servicios sin eliminar datos:
@@ -207,25 +210,21 @@ Mailpit sólo captura correo de desarrollo; no es un proveedor SMTP de producci�
 
 Nginx recibe HTTP en `80`, conserva `/nginx-health` y redirige las solicitudes normales a HTTPS. TLS termina en `443` y el tráfico interno continúa hacia `laravel.test:80`.
 
-| Servicio | URL o puerto |
-| --- | --- |
-| Aplicación principal | `https://portfolio-mateo.test` |
-| Laravel directo, diagnóstico | `http://localhost:8080` |
-| Vite/HMR | `https://portfolio-mateo.test:5173` |
-| PostgreSQL portable | `localhost:5432` |
-| PostgreSQL en este equipo | `localhost:5434` |
-| Mailpit SMTP | `localhost:1025` |
-| Mailpit dashboard | `http://localhost:8025` |
+| Servicio                     | URL o puerto                        |
+| ---------------------------- | ----------------------------------- |
+| Aplicación principal         | `https://portfolio-mateo.test`      |
+| Laravel directo, diagnóstico | `http://localhost:8080`             |
+| Vite/HMR                     | `https://portfolio-mateo.test:5173` |
+| PostgreSQL portable          | `localhost:5432`                    |
+| PostgreSQL en este equipo    | `localhost:5434`                    |
+| Mailpit SMTP                 | `localhost:1025`                    |
+| Mailpit dashboard            | `http://localhost:8025`             |
 
 El acceso directo `8080` evita Nginx y no representa la URL normal de desarrollo.
 
 ## Vite y HMR
 
-Inicia Vite dentro de Sail:
-
-```bash
-./vendor/bin/sail npm run dev
-```
+El servicio `vite` inicia `npm run dev` automáticamente después de que Laravel está saludable. No inicies una segunda instancia de Vite manualmente.
 
 Cuando existen los certificados esperados, Vite sirve HTTPS y HMR utiliza WebSocket seguro. El certificado incluye `portfolio-mateo.test`, `localhost`, `127.0.0.1` y `::1`.
 
@@ -233,7 +232,7 @@ Cuando existen los certificados esperados, Vite sirve HTTPS y HMR utiliza WebSoc
 
 El repositorio incluye `boost.json`, `AGENTS.md` y las dependencias Boost/MCP. Codex debe abrirse desde la raíz para detectar las instrucciones del proyecto.
 
-El servidor MCP se inicia normalmente mediante la configuración del cliente. Para comprobarlo manualmente dentro de Sail:
+Al abrir Codex después de iniciar los contenedores, la configuración del cliente ejecuta Laravel Boost dentro de `laravel.test` con el usuario `sail`. Para comprobarlo manualmente dentro de Sail:
 
 ```bash
 ./vendor/bin/sail artisan boost:mcp
@@ -267,7 +266,7 @@ GitHub Actions usa SQLite `:memory:` y no requiere Docker, PostgreSQL ni certifi
 6. Añade la entrada de hosts y copia sólo el certificado/llave del servidor.
 7. Inicia primero PostgreSQL, Mailpit y Laravel; genera `APP_KEY` y después inicia Nginx.
 8. Ejecuta migraciones y el seeder.
-9. Instala dependencias npm e inicia Vite.
+9. Instala las dependencias npm; Docker Compose iniciará Vite automáticamente.
 
 Nunca copies `.env`, certificados, llaves, volúmenes o datos desde otro desarrollador.
 

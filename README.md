@@ -28,46 +28,46 @@ Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funci
 
 ## Funcionalidades
 
-| Estado | Funcionalidad |
-| --- | --- |
-| Implementado | Inicio y cierre de sesión para un administrador único |
-| Implementado | Recuperación, actualización y confirmación de contraseña |
-| Implementado | Segundo factor TOTP, QR y códigos de recuperación |
-| Implementado | Perfil, apariencia y navegación con Inertia |
-| Implementado | Entorno Docker con Nginx, HTTPS, Vite, PostgreSQL y Mailpit |
-| Implementado | Portada profesional con fotografía, proyectos y CV descargable |
-| Implementado | Contenido público y SEO en español (`/`) e inglés (`/en`) |
+| Estado       | Funcionalidad                                                                        |
+| ------------ | ------------------------------------------------------------------------------------ |
+| Implementado | Inicio y cierre de sesión para un administrador único                                |
+| Implementado | Recuperación, actualización y confirmación de contraseña                             |
+| Implementado | Segundo factor TOTP, QR y códigos de recuperación                                    |
+| Implementado | Perfil, apariencia y navegación con Inertia                                          |
+| Implementado | Entorno Docker con Nginx, HTTPS, Vite, PostgreSQL y Mailpit                          |
+| Implementado | Portada profesional con fotografía, proyectos y CV descargable                       |
+| Implementado | Contenido público y SEO en español (`/`) e inglés (`/en`)                            |
 | Implementado | Formulario de contacto bilingüe con validación, honeypot y limitación de solicitudes |
 
 ## Arquitectura
 
-| Capa | Tecnología |
-| --- | --- |
-| Backend | Laravel 13, PHP 8.5 y Laravel Fortify |
-| Frontend | Vue 3, TypeScript, Inertia.js 3 y Tailwind CSS 4 |
-| Datos | PostgreSQL 16 en desarrollo y SQLite en CI |
-| Infraestructura local | Docker Compose, Laravel Sail, Nginx y mkcert |
-| Correo local | Mailpit |
-| Calidad | Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC |
-| Asistencia técnica | Laravel Boost, MCP y Codex |
+| Capa                  | Tecnología                                               |
+| --------------------- | -------------------------------------------------------- |
+| Backend               | Laravel 13, PHP 8.5 y Laravel Fortify                    |
+| Frontend              | Vue 3, TypeScript, Inertia.js 3 y Tailwind CSS 4         |
+| Datos                 | PostgreSQL 16 en desarrollo y SQLite en CI               |
+| Infraestructura local | Docker Compose, Laravel Sail, Nginx y mkcert             |
+| Correo local          | Mailpit                                                  |
+| Calidad               | Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC |
+| Asistencia técnica    | Laravel Boost, MCP y Codex                               |
 
 ## Entorno local oficial
 
 Docker Compose con Laravel Sail administra cinco servicios:
 
-| Servicio | Función |
-| --- | --- |
-| `nginx` | Proxy inverso y terminación HTTPS local |
-| `laravel.test` | Laravel, PHP, Composer y Artisan |
-| `vite` | Servidor de desarrollo frontend, HMR y generación de rutas Wayfinder |
-| `postgres` | Base de datos PostgreSQL persistente |
-| `mailpit` | Captura local de correo SMTP |
+| Servicio       | Función                                                              |
+| -------------- | -------------------------------------------------------------------- |
+| `nginx`        | Proxy inverso y terminación HTTPS local                              |
+| `laravel.test` | Laravel, PHP, Composer y Artisan                                     |
+| `vite`         | Servidor de desarrollo frontend, HMR y generación de rutas Wayfinder |
+| `postgres`     | Base de datos PostgreSQL persistente                                 |
+| `mailpit`      | Captura local de correo SMTP                                         |
 
 Cada desarrollador genera sus propios certificados de confianza con mkcert. Los certificados, credenciales y secretos locales nunca se guardan en Git.
 
 El destinatario del formulario público se configura localmente mediante `CONTACT_MAIL_TO`; durante el desarrollo, los mensajes pueden verificarse en Mailpit.
 
-El servicio `vite` inicia `npm run dev` automáticamente después de que Laravel está saludable. No es necesario ejecutar Vite manualmente cada vez que se levantan los contenedores.
+El servicio `vite` inicia `npm run dev` automáticamente después de que Laravel está saludable. No inicies una segunda instancia de Vite manualmente.
 
 ### Documentación
 
@@ -76,7 +76,16 @@ El servicio `vite` inicia `npm run dev` automáticamente después de que Laravel
 
 ## Inicio rápido
 
-Después de completar la preparación y los certificados descritos en la guía:
+Después de completar la preparación y los certificados descritos en la guía, el orden normal de arranque es:
+
+```bash
+cd ~/code/portfolio-mateo
+docker compose up -d
+docker compose ps
+codex
+```
+
+En la preparación inicial también deben ejecutarse las migraciones y el seeder:
 
 ```bash
 ./vendor/bin/sail up -d --build
