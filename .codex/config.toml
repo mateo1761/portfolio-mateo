@@ -1,4 +1,14 @@
 [mcp_servers.laravel-boost]
-command = "php"
-args = ["artisan", "boost:mcp"]
+command = "docker"
+args = [
+    "compose",
+    "exec",
+    "-T",
+    "--user",
+    "sail",
+    "laravel.test",
+    "php",
+    "artisan",
+    "boost:mcp",
+]
 startup_timeout_sec = 120
