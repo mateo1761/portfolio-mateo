@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ArrowDown, MapPin } from '@lucide/vue';
 import mateoPortrait from '@/../images/mateo-quintero.webp';
+import type { PortfolioCopy } from '@/lib/portfolio-translations';
+
+const props = defineProps<{
+    copy: PortfolioCopy['hero'];
+}>();
 </script>
 
 <template>
@@ -12,30 +17,30 @@ import mateoPortrait from '@/../images/mateo-quintero.webp';
             <p
                 class="mb-7 text-sm font-semibold tracking-[0.16em] text-portfolio-gold uppercase"
             >
-                Desarrollador Full Stack Mid-Senior
+                {{ props.copy.eyebrow }}
             </p>
 
             <h1
                 id="hero-heading"
                 class="max-w-4xl text-4xl leading-[1.08] font-semibold tracking-[-0.04em] text-balance sm:text-6xl lg:text-7xl"
             >
-                Construyo soluciones web que mejoran
-                <span class="text-portfolio-gold">procesos reales.</span>
+                {{ props.copy.headline }}
+                <span class="text-portfolio-gold">
+                    {{ props.copy.headlineHighlight }}
+                </span>
             </h1>
 
             <p
                 class="mt-8 max-w-2xl text-lg leading-8 text-portfolio-muted sm:text-xl"
             >
-                Soy Mateo, desarrollador especializado en PHP, Laravel,
-                JavaScript y Vue.js. Transformo necesidades de negocio en
-                aplicaciones mantenibles, integraciones y automatizaciones.
+                {{ props.copy.introduction }}
             </p>
 
             <p
                 class="mt-6 flex items-center gap-2 text-sm text-portfolio-muted"
             >
                 <MapPin class="size-4 text-portfolio-gold" aria-hidden="true" />
-                Sabaneta, Antioquia, Colombia
+                {{ props.copy.location }}
             </p>
 
             <div class="mt-10 flex flex-wrap items-center gap-4">
@@ -43,17 +48,17 @@ import mateoPortrait from '@/../images/mateo-quintero.webp';
                     href="#proyectos"
                     class="inline-flex min-h-12 items-center gap-2 bg-portfolio-gold px-6 font-semibold text-portfolio-background transition-colors outline-none hover:bg-portfolio-text focus-visible:ring-2 focus-visible:ring-portfolio-text focus-visible:ring-offset-4 focus-visible:ring-offset-portfolio-background motion-reduce:transition-none"
                 >
-                    Ver proyectos
+                    {{ props.copy.viewProjects }}
                     <ArrowDown class="size-4" aria-hidden="true" />
                 </a>
 
                 <a
                     href="/documents/Hoja_de_vida_Mateo_Quintero_2026.pdf"
                     download="Hoja-de-vida-Mateo-Quintero.pdf"
-                    aria-label="Descargar hoja de vida de Mateo Quintero en formato PDF"
+                    :aria-label="props.copy.downloadCvLabel"
                     class="inline-flex min-h-12 items-center border border-portfolio-divider px-6 font-medium text-portfolio-text transition-colors outline-none hover:border-portfolio-gold hover:text-portfolio-gold focus-visible:ring-2 focus-visible:ring-portfolio-gold motion-reduce:transition-none"
                 >
-                    Descargar CV
+                    {{ props.copy.downloadCv }}
                 </a>
 
                 <a
@@ -63,7 +68,9 @@ import mateoPortrait from '@/../images/mateo-quintero.webp';
                     class="inline-flex min-h-12 items-center gap-2 px-2 font-medium text-portfolio-text transition-colors outline-none hover:text-portfolio-gold focus-visible:ring-2 focus-visible:ring-portfolio-gold motion-reduce:transition-none"
                 >
                     LinkedIn
-                    <span class="sr-only">(abre en una pestaña nueva)</span>
+                    <span class="sr-only">
+                        ({{ props.copy.linkedInNewTab }})
+                    </span>
                 </a>
             </div>
         </div>
@@ -71,7 +78,7 @@ import mateoPortrait from '@/../images/mateo-quintero.webp';
         <div class="flex justify-center lg:justify-end">
             <img
                 :src="mateoPortrait"
-                alt="Retrato profesional de Mateo Quintero Zapata"
+                :alt="props.copy.portraitAlt"
                 width="800"
                 height="800"
                 loading="eager"

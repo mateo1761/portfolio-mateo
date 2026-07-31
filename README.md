@@ -20,7 +20,9 @@ Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funci
 - Integración full-stack con Laravel, Inertia y Vue sin mantener una API SPA separada.
 - Autenticación de administrador con recuperación de contraseña, confirmación y segundo factor TOTP.
 - Interfaz adaptable construida con TypeScript, Tailwind CSS y componentes accesibles.
+- Experiencia pública bilingüe en español e inglés, con rutas y metadatos SEO específicos por idioma.
 - Desarrollo local reproducible mediante Docker Compose, Laravel Sail y HTTPS confiable.
+- Fotografía profesional procesada por Vite y hoja de vida pública descargable.
 - Persistencia con PostgreSQL y pruebas aisladas con SQLite en memoria.
 - Calidad continua con Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC.
 
@@ -32,8 +34,10 @@ Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funci
 | Implementado | Recuperación, actualización y confirmación de contraseña |
 | Implementado | Segundo factor TOTP, QR y códigos de recuperación |
 | Implementado | Perfil, apariencia y navegación con Inertia |
-| Implementado | Entorno Docker con Nginx, HTTPS, PostgreSQL y Mailpit |
-| Implementado | Portada profesional, proyectos y formulario de contacto |
+| Implementado | Entorno Docker con Nginx, HTTPS, Vite, PostgreSQL y Mailpit |
+| Implementado | Portada profesional con fotografía, proyectos y CV descargable |
+| Implementado | Contenido público y SEO en español (`/`) e inglés (`/en`) |
+| Implementado | Formulario de contacto bilingüe con validación, honeypot y limitación de solicitudes |
 
 ## Arquitectura
 
@@ -49,18 +53,21 @@ Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funci
 
 ## Entorno local oficial
 
-Docker Compose con Laravel Sail administra cuatro servicios:
+Docker Compose con Laravel Sail administra cinco servicios:
 
 | Servicio | Función |
 | --- | --- |
 | `nginx` | Proxy inverso y terminación HTTPS local |
-| `laravel.test` | Laravel, PHP, Composer, Artisan, npm y Vite |
+| `laravel.test` | Laravel, PHP, Composer y Artisan |
+| `vite` | Servidor de desarrollo frontend, HMR y generación de rutas Wayfinder |
 | `postgres` | Base de datos PostgreSQL persistente |
 | `mailpit` | Captura local de correo SMTP |
 
 Cada desarrollador genera sus propios certificados de confianza con mkcert. Los certificados, credenciales y secretos locales nunca se guardan en Git.
 
 El destinatario del formulario público se configura localmente mediante `CONTACT_MAIL_TO`; durante el desarrollo, los mensajes pueden verificarse en Mailpit.
+
+El servicio `vite` inicia `npm run dev` automáticamente después de que Laravel está saludable. No es necesario ejecutar Vite manualmente cada vez que se levantan los contenedores.
 
 ### Documentación
 
@@ -75,10 +82,11 @@ Después de completar la preparación y los certificados descritos en la guía:
 ./vendor/bin/sail up -d --build
 ./vendor/bin/sail artisan migrate
 ./vendor/bin/sail artisan db:seed --class=DatabaseSeeder
-./vendor/bin/sail npm run dev
 ```
 
-La aplicación abre en `https://portfolio-mateo.test`. El acceso `http://localhost:8080` se conserva únicamente para diagnóstico directo de Laravel.
+La versión en español abre en `https://portfolio-mateo.test` y la versión en inglés en `https://portfolio-mateo.test/en`. El acceso `http://localhost:8080` se conserva únicamente para diagnóstico directo de Laravel.
+
+La fotografía se procesa desde `resources/images/mateo-quintero.webp`. La hoja de vida estática se publica desde `public/documents/Hoja_de_vida_Mateo_Quintero_2026.pdf`.
 
 ## Calidad
 
@@ -96,8 +104,8 @@ GitHub Actions ejecuta las comprobaciones con SQLite en memoria y no depende de 
 
 ## Próximos pasos
 
-- Incorporar una fotografía profesional.
-- Publicar una versión descargable del CV.
+- Definir el dominio de producción y completar las URL canónicas y Open Graph cuando esté disponible.
+- Preparar una imagen social específica para Open Graph.
 - Añadir el texto formal de licencia.
 
 ## Autor

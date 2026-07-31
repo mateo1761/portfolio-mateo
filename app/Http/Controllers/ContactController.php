@@ -11,7 +11,7 @@ class ContactController extends Controller
 {
     public function __invoke(ContactRequest $request): RedirectResponse
     {
-        $contact = $request->safe()->except('company');
+        $contact = $request->safe()->except(['company', 'locale']);
 
         Mail::to((string) config('mail.contact_to'))->send(new ContactMessage(
             name: $contact['name'],

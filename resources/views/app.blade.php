@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @class(['dark' => ($appearance ?? 'system') == 'dark'])>
+<html lang="{{ $page['props']['locale'] ?? str_replace('_', '-', app()->getLocale()) }}"  @class(['dark' => ($appearance ?? 'system') == 'dark'])>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,7 +44,7 @@
                 <meta data-inertia="og:type" property="og:type" content="website">
                 <meta data-inertia="og:title" property="og:title" content="{{ $page['props']['seo']['title'] }}">
                 <meta data-inertia="og:description" property="og:description" content="{{ $page['props']['seo']['description'] }}">
-                <meta data-inertia="og:locale" property="og:locale" content="es_CO">
+                <meta data-inertia="og:locale" property="og:locale" content="{{ ($page['props']['locale'] ?? 'es') === 'en' ? 'en_US' : 'es_CO' }}">
             @else
                 <title data-inertia>{{ config('app.name', 'Laravel') }}</title>
             @endif

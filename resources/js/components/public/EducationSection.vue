@@ -1,16 +1,9 @@
 <script setup lang="ts">
-const education = [
-    {
-        institution: 'CESDE',
-        program: 'Técnico laboral en Desarrollo de Software',
-        period: '2022',
-    },
-    {
-        institution: 'UNIREMINGTON',
-        program: 'Tecnología en Desarrollo de Software',
-        period: 'En formación',
-    },
-] as const;
+import type { PortfolioCopy } from '@/lib/portfolio-translations';
+
+const props = defineProps<{
+    copy: PortfolioCopy['education'];
+}>();
 </script>
 
 <template>
@@ -22,19 +15,19 @@ const education = [
                 <p
                     class="text-sm font-semibold tracking-[0.16em] text-portfolio-gold uppercase"
                 >
-                    Formación
+                    {{ props.copy.eyebrow }}
                 </p>
                 <h2
                     id="education-heading"
                     class="mt-4 text-3xl font-semibold tracking-[-0.03em]"
                 >
-                    Educación
+                    {{ props.copy.heading }}
                 </h2>
             </div>
 
             <dl class="border-t border-portfolio-divider">
                 <div
-                    v-for="item in education"
+                    v-for="item in props.copy.items"
                     :key="item.institution"
                     class="grid gap-2 border-b border-portfolio-divider py-6 sm:grid-cols-[0.55fr_1.15fr_0.4fr] sm:gap-8"
                 >
