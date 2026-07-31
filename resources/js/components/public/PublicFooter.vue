@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import type { PortfolioCopy } from '@/lib/portfolio-translations';
 import { login } from '@/routes';
+
+const props = defineProps<{
+    copy: PortfolioCopy['footer'];
+}>();
 
 const currentYear = new Date().getFullYear();
 </script>
@@ -15,11 +20,11 @@ const currentYear = new Date().getFullYear();
                     Mateo Quintero Zapata
                 </p>
                 <p class="mt-1">
-                    © {{ currentYear }} · Construido con Laravel y Vue.js
+                    © {{ currentYear }} · {{ props.copy.builtWith }}
                 </p>
             </div>
 
-            <nav aria-label="Enlaces del pie de página">
+            <nav :aria-label="props.copy.navigationLabel">
                 <ul class="flex flex-wrap items-center gap-5">
                     <li>
                         <a
@@ -29,9 +34,9 @@ const currentYear = new Date().getFullYear();
                             class="inline-flex items-center gap-2 outline-none hover:text-portfolio-text focus-visible:text-portfolio-text focus-visible:ring-2 focus-visible:ring-portfolio-gold"
                         >
                             GitHub
-                            <span class="sr-only"
-                                >(abre en una pestaña nueva)</span
-                            >
+                            <span class="sr-only">
+                                ({{ props.copy.newTabLabel }})
+                            </span>
                         </a>
                     </li>
                     <li>
@@ -42,9 +47,9 @@ const currentYear = new Date().getFullYear();
                             class="inline-flex items-center gap-2 outline-none hover:text-portfolio-text focus-visible:text-portfolio-text focus-visible:ring-2 focus-visible:ring-portfolio-gold"
                         >
                             LinkedIn
-                            <span class="sr-only"
-                                >(abre en una pestaña nueva)</span
-                            >
+                            <span class="sr-only">
+                                ({{ props.copy.newTabLabel }})
+                            </span>
                         </a>
                     </li>
                     <li>
@@ -52,7 +57,7 @@ const currentYear = new Date().getFullYear();
                             :href="login()"
                             class="text-xs outline-none hover:text-portfolio-text focus-visible:text-portfolio-text focus-visible:ring-2 focus-visible:ring-portfolio-gold"
                         >
-                            Administración
+                            {{ props.copy.administrationLabel }}
                         </Link>
                     </li>
                 </ul>

@@ -7,6 +7,9 @@ test('public CV exists and is linked from the portfolio', function () {
     $heroComponent = file_get_contents(
         resource_path('js/components/public/HeroSection.vue'),
     );
+    $portfolioTranslations = file_get_contents(
+        resource_path('js/lib/portfolio-translations.ts'),
+    );
 
     expect($cvPath)
         ->toBeFile()
@@ -16,6 +19,11 @@ test('public CV exists and is linked from the portfolio', function () {
         ->toContain(
             'href="/documents/Hoja_de_vida_Mateo_Quintero_2026.pdf"',
             'download="Hoja-de-vida-Mateo-Quintero.pdf"',
-            'aria-label="Descargar hoja de vida de Mateo Quintero en formato PDF"',
+            ':aria-label="props.copy.downloadCvLabel"',
+        )
+        ->and($portfolioTranslations)
+        ->toContain(
+            'Descargar hoja de vida de Mateo Quintero en formato PDF',
+            'Download Mateo Quintero’s CV in Spanish as a PDF',
         );
 });

@@ -1,30 +1,9 @@
 <script setup lang="ts">
-const experiences = [
-    {
-        company: 'CRONOS LOGISTICS',
-        role: 'Desarrollador Back-end Python | Desarrollo Full Stack',
-        period: 'Feb. 2026 - Actualidad',
-        location: 'Medellín, Antioquia - Híbrido',
-        summary:
-            'Desarrollo de soluciones web y back-end, automatización de procesos de cotización logística, PostgreSQL, Docker y desarrollo asistido por inteligencia artificial.',
-    },
-    {
-        company: 'MANPOWERGROUP',
-        role: 'Analista de software',
-        period: 'Oct. 2022 - Ene. 2026',
-        location: 'Medellín, Antioquia - Híbrido',
-        summary:
-            'Desarrollo y mantenimiento de aplicaciones empresariales con PHP, Laravel, JavaScript, Vue.js y Node.js; integraciones REST y SOAP; SQL Server, MySQL y soporte productivo.',
-    },
-    {
-        company: 'MANPOWERGROUP',
-        role: 'Practicante de desarrollo de software',
-        period: 'Mar. 2022 - Sept. 2022',
-        location: 'Colombia',
-        summary:
-            'Desarrollo web con PHP, Laravel y JavaScript, implementación de funcionalidades, solución de incidencias, consultas de datos y colaboración mediante Git.',
-    },
-] as const;
+import type { PortfolioCopy } from '@/lib/portfolio-translations';
+
+const props = defineProps<{
+    copy: PortfolioCopy['experience'];
+}>();
 </script>
 
 <template>
@@ -37,18 +16,18 @@ const experiences = [
             <p
                 class="text-sm font-semibold tracking-[0.16em] text-portfolio-gold uppercase"
             >
-                Experiencia
+                {{ props.copy.eyebrow }}
             </p>
             <h2
                 id="experience-heading"
                 class="mt-5 max-w-3xl text-3xl leading-tight font-semibold tracking-[-0.03em] text-balance sm:text-5xl"
             >
-                Una trayectoria enfocada en aplicaciones empresariales.
+                {{ props.copy.heading }}
             </h2>
 
             <ol class="mt-16 border-t border-portfolio-divider">
                 <li
-                    v-for="experience in experiences"
+                    v-for="experience in props.copy.items"
                     :key="`${experience.company}-${experience.period}`"
                     class="grid gap-5 border-b border-portfolio-divider py-9 md:grid-cols-[0.55fr_0.9fr_1.55fr] md:gap-10"
                 >

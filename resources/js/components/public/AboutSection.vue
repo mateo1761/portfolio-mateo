@@ -1,11 +1,9 @@
 <script setup lang="ts">
-const technologyGroups = [
-    'PHP · Laravel · Vue.js',
-    'Node.js · Python',
-    'PostgreSQL · SQL Server · MySQL',
-    'Docker · AWS',
-    'APIs REST · SOAP',
-] as const;
+import type { PortfolioCopy } from '@/lib/portfolio-translations';
+
+const props = defineProps<{
+    copy: PortfolioCopy['about'];
+}>();
 </script>
 
 <template>
@@ -18,30 +16,27 @@ const technologyGroups = [
             <p
                 class="text-sm font-semibold tracking-[0.16em] text-portfolio-gold uppercase"
             >
-                Sobre mí
+                {{ props.copy.eyebrow }}
             </p>
             <h2
                 id="about-heading"
                 class="mt-5 max-w-lg text-3xl leading-tight font-semibold tracking-[-0.03em] text-balance sm:text-5xl"
             >
-                Experiencia técnica con comprensión del negocio.
+                {{ props.copy.heading }}
             </h2>
         </div>
 
         <div class="lg:pt-9">
             <p class="max-w-2xl text-lg leading-8 text-portfolio-muted">
-                He participado en el desarrollo de aplicaciones empresariales,
-                automatización de procesos e integración de plataformas. Mi
-                principal fortaleza está en Laravel y Vue.js, complementada con
-                Node.js, Python, Docker y bases de datos relacionales.
+                {{ props.copy.description }}
             </p>
 
             <ul
                 class="mt-10 divide-y divide-portfolio-divider border-y border-portfolio-divider"
-                aria-label="Tecnologías principales y complementarias"
+                :aria-label="props.copy.technologiesLabel"
             >
                 <li
-                    v-for="group in technologyGroups"
+                    v-for="group in props.copy.technologies"
                     :key="group"
                     class="py-4 text-base font-medium text-portfolio-text"
                 >

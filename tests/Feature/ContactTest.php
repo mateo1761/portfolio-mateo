@@ -52,6 +52,58 @@ test('contact form rejects honeypot submissions', function () {
     Mail::assertNothingSent();
 });
 
+test('contact form returns validation messages in English', function () {
+    Mail::fake();
+
+    $response = $this
+        ->from(route('home.en'))
+        ->post(route('contact.store'), [
+            'locale' => 'en',
+            'name' => '',
+            'email' => 'invalid-email',
+            'subject' => '',
+            'message' => 'Too short',
+            'company' => '',
+        ]);
+
+    $response
+        ->assertRedirect(route('home.en'))
+        ->assertSessionHasErrors([
+            'name' => 'The name field is required.',
+            'email' => 'Please enter a valid email address.',
+            'subject' => 'The subject field is required.',
+            'message' => 'The message must contain at least 20 characters.',
+        ]);
+
+    Mail::assertNothingSent();
+});
+
+test('contact form returns validation messages in Spanish', function () {
+    Mail::fake();
+
+    $response = $this
+        ->from(route('home'))
+        ->post(route('contact.store'), [
+            'locale' => 'es',
+            'name' => '',
+            'email' => 'invalid-email',
+            'subject' => '',
+            'message' => 'Muy corto',
+            'company' => '',
+        ]);
+
+    $response
+        ->assertRedirect(route('home'))
+        ->assertSessionHasErrors([
+            'name' => 'El campo nombre es obligatorio.',
+            'email' => 'Ingresa una dirección de correo válida.',
+            'subject' => 'El campo asunto es obligatorio.',
+            'message' => 'El mensaje debe contener al menos 20 caracteres.',
+        ]);
+
+    Mail::assertNothingSent();
+});
+
 test('contact form sends a message to the configured recipient', function () {
     Mail::fake();
 
