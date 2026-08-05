@@ -23,6 +23,8 @@ test('authenticated users can visit the dashboard', function () {
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('Dashboard')
+            ->has('analytics.series', 30)
+            ->where('analytics.retentionMonths', 12)
             ->where('contentSummary.projects', [
                 'total' => 3,
                 'published' => 2,

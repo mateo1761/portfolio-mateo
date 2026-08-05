@@ -11,6 +11,7 @@ import { en as privacyEn } from '@/routes/privacy';
 
 const props = defineProps<{
     locale: PortfolioLocale;
+    policyVersion: string;
     seo: {
         title: string;
         description: string;
@@ -106,7 +107,8 @@ const canonicalUrl = computed(() =>
                 {{ copy.introduction }}
             </p>
             <p class="mt-6 text-sm text-portfolio-muted">
-                {{ copy.versionLabel }} 1.0 · {{ copy.effectiveDateLabel }}
+                {{ copy.versionLabel }} {{ props.policyVersion }} ·
+                {{ copy.effectiveDateLabel }}
                 {{ copy.effectiveDate }}
             </p>
 

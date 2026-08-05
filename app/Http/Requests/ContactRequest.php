@@ -25,7 +25,7 @@ class ContactRequest extends FormRequest
             'subject' => ['required', 'string', 'max:150'],
             'message' => ['required', 'string', 'min:20', 'max:5000'],
             'privacy_consent' => ['required', 'accepted'],
-            'company' => ['nullable', 'string', 'max:0'],
+            'website' => ['nullable', 'string', 'max:0'],
             'locale' => ['nullable', 'string', 'in:es,en'],
         ];
     }
@@ -75,7 +75,7 @@ class ContactRequest extends FormRequest
                 'message.max' => 'The message must not exceed 5000 characters.',
                 'privacy_consent.required' => 'You must authorize the processing of your personal data to send the message.',
                 'privacy_consent.accepted' => 'You must authorize the processing of your personal data to send the message.',
-                'company.max' => 'The message could not be sent.',
+                'website.max' => 'The message could not be sent.',
                 'locale.in' => 'The selected language is invalid.',
             ]
             : [
@@ -91,7 +91,7 @@ class ContactRequest extends FormRequest
                 'message.max' => 'El mensaje no debe superar los 5000 caracteres.',
                 'privacy_consent.required' => 'Debes autorizar el tratamiento de tus datos personales para enviar el mensaje.',
                 'privacy_consent.accepted' => 'Debes autorizar el tratamiento de tus datos personales para enviar el mensaje.',
-                'company.max' => 'No fue posible enviar el mensaje.',
+                'website.max' => 'No fue posible enviar el mensaje.',
                 'locale.in' => 'El idioma seleccionado no es válido.',
             ];
     }

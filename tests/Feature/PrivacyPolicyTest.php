@@ -10,6 +10,7 @@ test('privacy policy is available in Spanish and English', function (string $rou
         ->assertInertia(fn (Assert $page) => $page
             ->component('PrivacyPolicy')
             ->where('locale', $locale)
+            ->where('policyVersion', '1.1')
             ->where('seo.title', $title),
         );
 })->with([

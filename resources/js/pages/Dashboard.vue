@@ -7,6 +7,9 @@ import {
     FilePenLine,
     FolderKanban,
 } from '@lucide/vue';
+import { computed, ref } from 'vue';
+import MetricChart from '@/components/dashboard/MetricChart.vue';
+import type { MetricPoint } from '@/components/dashboard/MetricChart.vue';
 import Heading from '@/components/Heading.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -21,11 +24,32 @@ type ContentCount = {
 };
 
 const props = defineProps<{
+    analytics: {
+        retentionMonths: number;
+        series: MetricPoint[];
+        totals: {
+            visits: number;
+            contactSubmissions: number;
+        };
+    };
     contentSummary: {
         projects: ContentCount;
         experiences: ContentCount;
     };
 }>();
+
+const selectedDays = ref<7 | 30>(30);
+const periodOptions = [7, 30] as const;
+const visibleMetrics = computed(() =>
+    props.analytics.series.slice(-selectedDays.value),
+);
+const visibleTotals = computed(() => ({
+    visits: visibleMetrics.value.reduce((total, point) => total + point.visits, 0),
+    contactSubmissions: visibleMetrics.value.reduce(
+        (total, point) => total + point.contactSubmissions,
+        0,
+    ),
+}));
 
 const contentSections = [
     {
@@ -184,23 +208,82 @@ defineOptions({
             </div>
         </section>
 
-        <section
-            aria-labelledby="analytics-heading"
-            class="rounded-2xl border border-dashed border-portfolio-gold/35 bg-portfolio-surface/45 p-5 sm:p-6"
-        >
-            <h2
-                id="analytics-heading"
-                class="text-lg font-semibold text-portfolio-text"
-            >
-                Privacy-friendly insights
-            </h2>
-            <p
-                class="mt-2 max-w-3xl text-sm leading-6 text-portfolio-muted"
-            >
-                Visit and successful contact metrics will be added in a
-                separate phase after defining the anonymous measurement and
-                retention rules.
-            </p>
+        <section aria-labelledby="analytics-heading">
+            <div class="mb-4 flex flex-wrap items-end justify-between gap-4">
+                <div>
+                    <h2
+                        id="analytics-heading"
+                        class="text-xl font-semibold text-portfolio-text"
+                    >
+                        Privacy-friendly insights
+                    </h2>
+                    <p class="mt-1 max-w-3xl text-sm text-portfolio-muted">
+                        Anonymous daily counters retained for
+                        {{ analytics.retentionMonths }} months. Visits represent
+                        page loads, not unique people.
+                    </p>
+                </div>
+                <div
+                    class="flex rounded-lg border border-portfolio-divider p-1"
+                    aria-label="Analytics period"
+                >
+                    <button
+                        v-for="days in periodOptions"
+                        :key="days"
+                        type="button"
+                        class="rounded-md px-3 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-portfolio-gold motion-reduce:transition-none"
+                        :class="
+                            selectedDays === days
+                                ? 'bg-portfolio-gold text-portfolio-background'
+                                : 'text-portfolio-muted hover:text-portfolio-text'
+                        "
+                        :aria-pressed="selectedDays === days"
+                        @click="selectedDays = days"
+                    >
+                        {{ days }} days
+                    </button>
+                </div>
+            </div>
+
+            <dl class="mb-5 grid gap-4 sm:grid-cols-2">
+                <div
+                    class="rounded-xl border border-portfolio-divider bg-portfolio-surface/70 p-4"
+                >
+                    <dt class="text-sm text-portfolio-muted">
+                        Visits in selected period
+                    </dt>
+                    <dd class="mt-1 text-3xl font-bold text-portfolio-text">
+                        {{ visibleTotals.visits }}
+                    </dd>
+                </div>
+                <div
+                    class="rounded-xl border border-portfolio-divider bg-portfolio-surface/70 p-4"
+                >
+                    <dt class="text-sm text-portfolio-muted">
+                        Successful form submissions
+                    </dt>
+                    <dd class="mt-1 text-3xl font-bold text-portfolio-text">
+                        {{ visibleTotals.contactSubmissions }}
+                    </dd>
+                </div>
+            </dl>
+
+            <div class="grid gap-5 xl:grid-cols-2">
+                <MetricChart
+                    title="Portfolio visits"
+                    description="Daily page loads across the Spanish and English portfolio routes."
+                    :points="visibleMetrics"
+                    metric="visits"
+                    kind="line"
+                />
+                <MetricChart
+                    title="Contact submissions"
+                    description="Messages counted only after the email is sent successfully."
+                    :points="visibleMetrics"
+                    metric="contactSubmissions"
+                    kind="bar"
+                />
+            </div>
         </section>
     </div>
 </template>
