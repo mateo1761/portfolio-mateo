@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import type { PortfolioCopy } from '@/lib/portfolio-translations';
-import { login } from '@/routes';
+import type {
+    PortfolioCopy,
+    PortfolioLocale,
+} from '@/lib/portfolio-translations';
+import { login, privacy } from '@/routes';
+import { en as privacyEn } from '@/routes/privacy';
 
 const props = defineProps<{
     copy: PortfolioCopy['footer'];
+    locale: PortfolioLocale;
 }>();
 
 const currentYear = new Date().getFullYear();
@@ -26,6 +31,16 @@ const currentYear = new Date().getFullYear();
 
             <nav :aria-label="props.copy.navigationLabel">
                 <ul class="flex flex-wrap items-center gap-5">
+                    <li>
+                        <Link
+                            :href="
+                                props.locale === 'es' ? privacy() : privacyEn()
+                            "
+                            class="outline-none hover:text-portfolio-text focus-visible:text-portfolio-text focus-visible:ring-2 focus-visible:ring-portfolio-gold"
+                        >
+                            {{ props.copy.privacyLabel }}
+                        </Link>
+                    </li>
                     <li>
                         <a
                             href="https://github.com/mateo1761"
