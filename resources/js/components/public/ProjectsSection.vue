@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ExternalLink } from '@lucide/vue';
 import type { PortfolioCopy } from '@/lib/portfolio-translations';
+import type { PublicProject } from '@/types';
 
 const props = defineProps<{
     copy: PortfolioCopy['projects'];
+    projects: PublicProject[];
 }>();
 </script>
 
@@ -27,8 +29,8 @@ const props = defineProps<{
 
         <div class="mt-16 border-t border-portfolio-divider">
             <article
-                v-for="project in props.copy.items"
-                :key="project.number"
+                v-for="project in props.projects"
+                :key="project.id"
                 class="grid gap-6 border-b border-portfolio-divider py-12 sm:grid-cols-[4rem_1fr] sm:gap-8 lg:grid-cols-[5rem_0.8fr_1.2fr] lg:gap-12"
             >
                 <p
@@ -60,10 +62,14 @@ const props = defineProps<{
                     </p>
 
                     <p
-                        v-if="project.private"
+                        v-if="!project.url"
                         class="mt-7 text-sm text-portfolio-muted"
                     >
-                        {{ props.copy.privateLabel }}
+                        {{
+                            project.private
+                                ? props.copy.privateLabel
+                                : props.copy.noRepositoryLabel
+                        }}
                     </p>
                     <a
                         v-else

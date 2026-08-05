@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Form, Head, Link } from '@inertiajs/vue3';
-import { Pencil, Plus, Trash2 } from '@lucide/vue';
-import { destroy } from '@/actions/App/Http/Controllers/ProjectController';
+import { Head, Link } from '@inertiajs/vue3';
+import { Pencil, Plus } from '@lucide/vue';
 import Heading from '@/components/Heading.vue';
+import DeleteProjectDialog from '@/components/projects/DeleteProjectDialog.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { create, edit, index } from '@/routes/projects';
@@ -17,12 +17,6 @@ defineOptions({
         breadcrumbs: [{ title: 'Projects', href: index() }],
     },
 });
-
-const confirmDeletion = (event: SubmitEvent): void => {
-    if (!window.confirm('Delete this project? This action cannot be undone.')) {
-        event.preventDefault();
-    }
-};
 </script>
 
 <template>
@@ -101,15 +95,7 @@ const confirmDeletion = (event: SubmitEvent): void => {
                             Edit
                         </Link>
                     </Button>
-                    <Form
-                        v-bind="destroy.form(project.id)"
-                        @submit="confirmDeletion"
-                    >
-                        <Button variant="destructive" size="sm" type="submit">
-                            <Trash2 aria-hidden="true" />
-                            Delete
-                        </Button>
-                    </Form>
+                    <DeleteProjectDialog :project="project" />
                 </div>
             </article>
         </div>

@@ -13,3 +13,14 @@ export type Project = {
     is_published: boolean;
     sort_order: number;
 };
+
+export type PublicProject = {
+    id: number;
+    number: string;
+    category: string;
+    title: string;
+    description: string;
+    technologies: string;
+    private: boolean;
+    url: string | null;
+};
