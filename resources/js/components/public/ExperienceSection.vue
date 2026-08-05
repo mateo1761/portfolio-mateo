@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { PortfolioCopy } from '@/lib/portfolio-translations';
+import type { PublicExperience } from '@/types';
 
 const props = defineProps<{
     copy: PortfolioCopy['experience'];
+    experiences: PublicExperience[];
 }>();
 </script>
 
@@ -27,8 +29,8 @@ const props = defineProps<{
 
             <ol class="mt-16 border-t border-portfolio-divider">
                 <li
-                    v-for="experience in props.copy.items"
-                    :key="`${experience.company}-${experience.period}`"
+                    v-for="experience in props.experiences"
+                    :key="experience.id"
                     class="grid gap-5 border-b border-portfolio-divider py-9 md:grid-cols-[0.55fr_0.9fr_1.55fr] md:gap-10"
                 >
                     <div>

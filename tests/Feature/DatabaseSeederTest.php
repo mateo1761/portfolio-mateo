@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Experience;
 use App\Models\Project;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
@@ -17,6 +18,7 @@ test('database seeder creates one configured administrator idempotently', functi
 
     expect(User::query()->count())->toBe(1);
     expect(Project::query()->count())->toBe(3);
+    expect(Experience::query()->count())->toBe(3);
 
     $administrator = User::query()->sole();
 

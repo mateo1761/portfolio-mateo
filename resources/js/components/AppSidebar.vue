@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import {
+    BriefcaseBusiness,
     ExternalLink,
     FolderGit2,
     FolderKanban,
@@ -20,6 +21,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard, home } from '@/routes';
+import { index as experiencesIndex } from '@/routes/experiences';
 import { index as projectsIndex } from '@/routes/projects';
 import type { NavItem } from '@/types';
 
@@ -33,6 +35,11 @@ const mainNavItems: NavItem[] = [
         title: 'Projects',
         href: projectsIndex(),
         icon: FolderKanban,
+    },
+    {
+        title: 'Experience',
+        href: experiencesIndex(),
+        icon: BriefcaseBusiness,
     },
 ];
 

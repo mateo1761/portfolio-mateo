@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Experience;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class HomeController extends Controller
             'locale' => $locale,
             'seo' => $this->seo($locale),
             'projects' => $this->publicProjects($locale),
+            'experiences' => $this->publicExperiences($locale),
         ]);
     }
 
@@ -44,6 +46,21 @@ class HomeController extends Controller
             'private' => $project->is_private,
             'url' => $project->repository_url,
         ])->all();
+    }
+
+    /** @return array<int, array<string, int|string>> */
+    private function publicExperiences(string $locale): array
+    {
+        return Experience::query()->published()->ordered()->get()->map(
+            fn (Experience $experience): array => [
+                'id' => $experience->id,
+                'company' => $experience->company,
+                'role' => $locale === 'en' ? $experience->role_en : $experience->role_es,
+                'period' => $locale === 'en' ? $experience->period_en : $experience->period_es,
+                'location' => $locale === 'en' ? $experience->location_en : $experience->location_es,
+                'summary' => $locale === 'en' ? $experience->summary_en : $experience->summary_es,
+            ],
+        )->all();
     }
 
     /**

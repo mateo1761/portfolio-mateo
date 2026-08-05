@@ -45,13 +45,6 @@ export interface PortfolioCopy {
     experience: {
         eyebrow: string;
         heading: string;
-        items: ReadonlyArray<{
-            company: string;
-            role: string;
-            period: string;
-            location: string;
-            summary: string;
-        }>;
     };
     projects: {
         eyebrow: string;
@@ -170,32 +163,6 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
         experience: {
             eyebrow: 'Experiencia',
             heading: 'Una trayectoria enfocada en aplicaciones empresariales.',
-            items: [
-                {
-                    company: 'CRONOS LOGISTICS',
-                    role: 'Desarrollador Back-end Python | Desarrollo Full Stack',
-                    period: 'Feb. 2026 - Actualidad',
-                    location: 'Medellín, Antioquia - Híbrido',
-                    summary:
-                        'Desarrollo de soluciones web y back-end, automatización de procesos de cotización logística, PostgreSQL, Docker y desarrollo asistido por inteligencia artificial.',
-                },
-                {
-                    company: 'MANPOWERGROUP',
-                    role: 'Analista de software',
-                    period: 'Oct. 2022 - Ene. 2026',
-                    location: 'Medellín, Antioquia - Híbrido',
-                    summary:
-                        'Desarrollo y mantenimiento de aplicaciones empresariales con PHP, Laravel, JavaScript, Vue.js y Node.js; integraciones REST y SOAP; SQL Server, MySQL y soporte productivo.',
-                },
-                {
-                    company: 'MANPOWERGROUP',
-                    role: 'Practicante de desarrollo de software',
-                    period: 'Mar. 2022 - Sept. 2022',
-                    location: 'Colombia',
-                    summary:
-                        'Desarrollo web con PHP, Laravel y JavaScript, implementación de funcionalidades, solución de incidencias, consultas de datos y colaboración mediante Git.',
-                },
-            ],
         },
         projects: {
             eyebrow: 'Proyectos',
@@ -325,32 +292,6 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
         experience: {
             eyebrow: 'Experience',
             heading: 'A career focused on enterprise applications.',
-            items: [
-                {
-                    company: 'CRONOS LOGISTICS',
-                    role: 'Python Back-end Developer | Full Stack Development',
-                    period: 'Feb. 2026 - Present',
-                    location: 'Medellín, Antioquia - Hybrid',
-                    summary:
-                        'Development of web and back-end solutions, automation of logistics quotation processes, PostgreSQL, Docker, and AI-assisted development.',
-                },
-                {
-                    company: 'MANPOWERGROUP',
-                    role: 'Software Analyst',
-                    period: 'Oct. 2022 - Jan. 2026',
-                    location: 'Medellín, Antioquia - Hybrid',
-                    summary:
-                        'Development and maintenance of enterprise applications with PHP, Laravel, JavaScript, Vue.js, and Node.js; REST and SOAP integrations; SQL Server, MySQL, and production support.',
-                },
-                {
-                    company: 'MANPOWERGROUP',
-                    role: 'Software Development Intern',
-                    period: 'Mar. 2022 - Sept. 2022',
-                    location: 'Colombia',
-                    summary:
-                        'Web development with PHP, Laravel, and JavaScript; feature implementation; incident resolution; data queries; and collaboration using Git.',
-                },
-            ],
         },
         projects: {
             eyebrow: 'Projects',
