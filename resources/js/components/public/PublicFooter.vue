@@ -4,8 +4,9 @@ import type {
     PortfolioCopy,
     PortfolioLocale,
 } from '@/lib/portfolio-translations';
-import { login, privacy } from '@/routes';
+import { login, privacy, terms } from '@/routes';
 import { en as privacyEn } from '@/routes/privacy';
+import { en as termsEn } from '@/routes/terms';
 
 const props = defineProps<{
     copy: PortfolioCopy['footer'];
@@ -39,6 +40,14 @@ const currentYear = new Date().getFullYear();
                             class="outline-none hover:text-portfolio-text focus-visible:text-portfolio-text focus-visible:ring-2 focus-visible:ring-portfolio-gold"
                         >
                             {{ props.copy.privacyLabel }}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            :href="props.locale === 'es' ? terms() : termsEn()"
+                            class="outline-none hover:text-portfolio-text focus-visible:text-portfolio-text focus-visible:ring-2 focus-visible:ring-portfolio-gold"
+                        >
+                            {{ props.copy.termsLabel }}
                         </Link>
                     </li>
                     <li>

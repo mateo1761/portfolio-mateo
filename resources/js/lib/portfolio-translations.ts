@@ -105,6 +105,7 @@ export interface PortfolioCopy {
         newTabLabel: string;
         administrationLabel: string;
         privacyLabel: string;
+        termsLabel: string;
     };
 }
 
@@ -292,6 +293,7 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             newTabLabel: 'abre en una pestaña nueva',
             administrationLabel: 'Administración',
             privacyLabel: 'Privacidad',
+            termsLabel: 'Términos y condiciones',
         },
     },
     en: {
@@ -476,6 +478,7 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             newTabLabel: 'opens in a new tab',
             administrationLabel: 'Administration',
             privacyLabel: 'Privacy',
+            termsLabel: 'Terms and Conditions',
         },
     },
 };
