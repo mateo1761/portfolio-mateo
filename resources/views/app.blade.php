@@ -51,6 +51,11 @@
                     <link data-inertia="alternate-es" rel="alternate" hreflang="es-CO" href="{{ route('privacy') }}">
                     <link data-inertia="alternate-en" rel="alternate" hreflang="en-US" href="{{ route('privacy.en') }}">
                     <link data-inertia="alternate-default" rel="alternate" hreflang="x-default" href="{{ route('privacy') }}">
+                @elseif ($page['component'] === 'TermsAndConditions')
+                    <link data-inertia="canonical" rel="canonical" href="{{ ($page['props']['locale'] ?? 'es') === 'en' ? route('terms.en') : route('terms') }}">
+                    <link data-inertia="alternate-es" rel="alternate" hreflang="es-CO" href="{{ route('terms') }}">
+                    <link data-inertia="alternate-en" rel="alternate" hreflang="en-US" href="{{ route('terms.en') }}">
+                    <link data-inertia="alternate-default" rel="alternate" hreflang="x-default" href="{{ route('terms') }}">
                 @endif
             @else
                 <title data-inertia>{{ config('app.name', 'Laravel') }}</title>
