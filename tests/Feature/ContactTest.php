@@ -17,6 +17,7 @@ test('contact form validates its public fields', function (array $invalidData, s
             'email' => 'visitor@example.com',
             'subject' => 'Project opportunity',
             'message' => 'I would like to discuss a new Laravel project.',
+            'privacy_consent' => '1',
             ...$invalidData,
         ]);
 
@@ -43,6 +44,7 @@ test('contact form rejects honeypot submissions', function () {
             'subject' => 'Automated message',
             'message' => 'This automated message should never be delivered.',
             'company' => 'Spam Company',
+            'privacy_consent' => '1',
         ]);
 
     $response
@@ -64,6 +66,7 @@ test('contact form returns validation messages in English', function () {
             'subject' => '',
             'message' => 'Too short',
             'company' => '',
+            'privacy_consent' => '1',
         ]);
 
     $response
@@ -90,6 +93,7 @@ test('contact form returns validation messages in Spanish', function () {
             'subject' => '',
             'message' => 'Muy corto',
             'company' => '',
+            'privacy_consent' => '1',
         ]);
 
     $response
@@ -115,6 +119,7 @@ test('contact form sends a message to the configured recipient', function () {
             'subject' => 'Laravel opportunity',
             'message' => 'I would like to discuss a Laravel and Vue opportunity.',
             'company' => '',
+            'privacy_consent' => '1',
         ]);
 
     $response
@@ -125,7 +130,9 @@ test('contact form sends a message to the configured recipient', function () {
         return $message->hasTo('portfolio@example.com')
             && $message->name === 'Portfolio Visitor'
             && $message->email === 'visitor@example.com'
-            && $message->contactSubject === 'Laravel opportunity';
+            && $message->contactSubject === 'Laravel opportunity'
+            && $message->policyVersion === '1.0'
+            && $message->formLocale === 'es';
     });
 });
 
@@ -135,6 +142,9 @@ test('contact mailable renders escaped content and reply information', function 
         email: 'visitor@example.com',
         contactSubject: 'Proyecto <Laravel>',
         messageBody: "Primera línea\nSegunda línea <script>alert('test')</script>",
+        consentGrantedAt: '2026-08-04T18:30:00+00:00',
+        policyVersion: '1.0',
+        formLocale: 'es',
     );
 
     $message
@@ -144,6 +154,9 @@ test('contact mailable renders escaped content and reply information', function 
         ->assertSeeInHtml('Proyecto <Laravel>')
         ->assertSeeInHtml("Segunda línea <script>alert('test')</script>")
         ->assertDontSeeInHtml("<script>alert('test')</script>", escape: false)
+        ->assertSeeInHtml('Autorización aceptada: Sí')
+        ->assertSeeInHtml('2026-08-04T18:30:00+00:00')
+        ->assertSeeInHtml('Versión de la política: 1.0')
         ->assertSeeInHtml(
             'mailto:visitor@example.com?subject=Re%3A%20Proyecto%20%3CLaravel%3E',
             escape: false,
@@ -159,6 +172,7 @@ test('contact form is rate limited', function () {
         'subject' => 'Laravel opportunity',
         'message' => 'I would like to discuss a Laravel and Vue opportunity.',
         'company' => '',
+        'privacy_consent' => '1',
     ];
 
     foreach (range(1, 5) as $attempt) {
@@ -169,3 +183,35 @@ test('contact form is rate limited', function () {
 
     Mail::assertSentCount(5);
 });
+
+test('contact form requires express privacy authorization in both languages', function (string $locale, string $referrer, string $message) {
+    Mail::fake();
+
+    $this
+        ->from($referrer)
+        ->post(route('contact.store'), [
+            'locale' => $locale,
+            'name' => 'Portfolio Visitor',
+            'email' => 'visitor@example.com',
+            'subject' => 'Laravel opportunity',
+            'message' => 'I would like to discuss a Laravel and Vue opportunity.',
+            'company' => '',
+        ])
+        ->assertRedirect($referrer)
+        ->assertSessionHasErrors([
+            'privacy_consent' => $message,
+        ]);
+
+    Mail::assertNothingSent();
+})->with([
+    'Spanish' => [
+        'es',
+        fn () => route('home'),
+        'Debes autorizar el tratamiento de tus datos personales para enviar el mensaje.',
+    ],
+    'English' => [
+        'en',
+        fn () => route('home.en'),
+        'You must authorize the processing of your personal data to send the message.',
+    ],
+]);

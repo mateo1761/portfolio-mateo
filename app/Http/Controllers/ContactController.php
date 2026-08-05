@@ -11,13 +11,16 @@ class ContactController extends Controller
 {
     public function __invoke(ContactRequest $request): RedirectResponse
     {
-        $contact = $request->safe()->except(['company', 'locale']);
+        $contact = $request->safe()->except(['company', 'locale', 'privacy_consent']);
 
         Mail::to((string) config('mail.contact_to'))->send(new ContactMessage(
             name: $contact['name'],
             email: $contact['email'],
             contactSubject: $contact['subject'],
             messageBody: $contact['message'],
+            consentGrantedAt: now()->utc()->toIso8601String(),
+            policyVersion: (string) config('privacy.policy_version'),
+            formLocale: $request->string('locale')->toString() === 'en' ? 'en' : 'es',
         ));
 
         return back();

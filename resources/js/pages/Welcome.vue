@@ -72,7 +72,7 @@ const copy = computed(() => portfolioCopy[props.locale]);
             <ContactSection :locale="props.locale" :copy="copy.contact" />
         </main>
 
-        <PublicFooter :copy="copy.footer" />
+        <PublicFooter :locale="props.locale" :copy="copy.footer" />
 
         <Toaster theme="dark" position="top-right" rich-colors close-button />
     </div>

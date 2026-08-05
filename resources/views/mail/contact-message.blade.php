@@ -243,6 +243,30 @@
                     </tr>
 
                     <tr>
+                        <td style="padding: 0 40px 36px;">
+                            <table
+                                role="presentation"
+                                width="100%"
+                                cellspacing="0"
+                                cellpadding="0"
+                                border="0"
+                                bgcolor="#142233"
+                                style="width: 100%; background-color: #142233;"
+                            >
+                                <tr>
+                                    <td style="padding: 20px; color: #aeb7c2; font-size: 13px; line-height: 21px;">
+                                        <strong style="color: #f4f1ea;">Evidencia de autorización de privacidad</strong><br>
+                                        Autorización aceptada: Sí<br>
+                                        Fecha y hora UTC: {{ $consentGrantedAt }}<br>
+                                        Versión de la política: {{ $policyVersion }}<br>
+                                        Idioma del formulario: {{ $formLocale }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td style="padding: 0 40px 40px;">
                             <table
                                 role="presentation"

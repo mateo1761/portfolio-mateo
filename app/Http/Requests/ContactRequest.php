@@ -24,6 +24,7 @@ class ContactRequest extends FormRequest
             'email' => ['required', 'email:rfc', 'max:255'],
             'subject' => ['required', 'string', 'max:150'],
             'message' => ['required', 'string', 'min:20', 'max:5000'],
+            'privacy_consent' => ['required', 'accepted'],
             'company' => ['nullable', 'string', 'max:0'],
             'locale' => ['nullable', 'string', 'in:es,en'],
         ];
@@ -42,12 +43,14 @@ class ContactRequest extends FormRequest
                 'email' => 'email',
                 'subject' => 'subject',
                 'message' => 'message',
+                'privacy_consent' => 'privacy authorization',
             ]
             : [
                 'name' => 'nombre',
                 'email' => 'correo',
                 'subject' => 'asunto',
                 'message' => 'mensaje',
+                'privacy_consent' => 'autorización de tratamiento de datos',
             ];
     }
 
@@ -70,6 +73,8 @@ class ContactRequest extends FormRequest
                 'message.required' => 'The message field is required.',
                 'message.min' => 'The message must contain at least 20 characters.',
                 'message.max' => 'The message must not exceed 5000 characters.',
+                'privacy_consent.required' => 'You must authorize the processing of your personal data to send the message.',
+                'privacy_consent.accepted' => 'You must authorize the processing of your personal data to send the message.',
                 'company.max' => 'The message could not be sent.',
                 'locale.in' => 'The selected language is invalid.',
             ]
@@ -84,6 +89,8 @@ class ContactRequest extends FormRequest
                 'message.required' => 'El campo mensaje es obligatorio.',
                 'message.min' => 'El mensaje debe contener al menos 20 caracteres.',
                 'message.max' => 'El mensaje no debe superar los 5000 caracteres.',
+                'privacy_consent.required' => 'Debes autorizar el tratamiento de tus datos personales para enviar el mensaje.',
+                'privacy_consent.accepted' => 'Debes autorizar el tratamiento de tus datos personales para enviar el mensaje.',
                 'company.max' => 'No fue posible enviar el mensaje.',
                 'locale.in' => 'El idioma seleccionado no es válido.',
             ];

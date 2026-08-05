@@ -19,6 +19,9 @@ class ContactMessage extends Mailable
         public readonly string $email,
         public readonly string $contactSubject,
         public readonly string $messageBody,
+        public readonly string $consentGrantedAt,
+        public readonly string $policyVersion,
+        public readonly string $formLocale,
     ) {}
 
     /**

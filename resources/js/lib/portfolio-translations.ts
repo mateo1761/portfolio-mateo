@@ -88,6 +88,11 @@ export interface PortfolioCopy {
         subjectLabel: string;
         messageLabel: string;
         messageHelp: string;
+        privacyConsentPrefix: string;
+        privacyConsentLink: string;
+        privacyConsentSuffix: string;
+        errorsTitle: string;
+        errorsDescription: string;
         successMessage: string;
         sendingLabel: string;
         submitLabel: string;
@@ -99,6 +104,7 @@ export interface PortfolioCopy {
         navigationLabel: string;
         newTabLabel: string;
         administrationLabel: string;
+        privacyLabel: string;
     };
 }
 
@@ -264,6 +270,14 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             subjectLabel: 'Asunto',
             messageLabel: 'Mensaje',
             messageHelp: 'Cuéntame brevemente el contexto de tu mensaje.',
+            privacyConsentPrefix:
+                'Autorizo el tratamiento de mis datos personales conforme a la',
+            privacyConsentLink: 'Política de tratamiento de datos personales',
+            privacyConsentSuffix:
+                'para responder y realizar seguimiento a mi consulta.',
+            errorsTitle: 'Revisa los campos del formulario',
+            errorsDescription:
+                'No pudimos enviar el mensaje. Corrige los siguientes campos:',
             successMessage:
                 'Gracias por escribirme. Tu mensaje fue enviado correctamente.',
             sendingLabel: 'Enviando…',
@@ -277,6 +291,7 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             navigationLabel: 'Enlaces del pie de página',
             newTabLabel: 'abre en una pestaña nueva',
             administrationLabel: 'Administración',
+            privacyLabel: 'Privacidad',
         },
     },
     en: {
@@ -440,6 +455,13 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             subjectLabel: 'Subject',
             messageLabel: 'Message',
             messageHelp: 'Briefly tell me the context of your message.',
+            privacyConsentPrefix:
+                'I authorize the processing of my personal data under the',
+            privacyConsentLink: 'Personal Data Processing Policy',
+            privacyConsentSuffix: 'to respond to and follow up on my inquiry.',
+            errorsTitle: 'Review the form fields',
+            errorsDescription:
+                'We could not send the message. Correct the following fields:',
             successMessage:
                 'Thank you for reaching out. Your message was sent successfully.',
             sendingLabel: 'Sending…',
@@ -453,6 +475,7 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             navigationLabel: 'Footer links',
             newTabLabel: 'opens in a new tab',
             administrationLabel: 'Administration',
+            privacyLabel: 'Privacy',
         },
     },
 };

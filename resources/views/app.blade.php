@@ -38,13 +38,20 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
         <x-inertia::head>
-            @if ($page['component'] === 'Welcome')
+            @if (isset($page['props']['seo']))
                 <title data-inertia>{{ $page['props']['seo']['title'] }}</title>
                 <meta data-inertia="description" name="description" content="{{ $page['props']['seo']['description'] }}">
-                <meta data-inertia="og:type" property="og:type" content="website">
-                <meta data-inertia="og:title" property="og:title" content="{{ $page['props']['seo']['title'] }}">
-                <meta data-inertia="og:description" property="og:description" content="{{ $page['props']['seo']['description'] }}">
-                <meta data-inertia="og:locale" property="og:locale" content="{{ ($page['props']['locale'] ?? 'es') === 'en' ? 'en_US' : 'es_CO' }}">
+                @if ($page['component'] === 'Welcome')
+                    <meta data-inertia="og:type" property="og:type" content="website">
+                    <meta data-inertia="og:title" property="og:title" content="{{ $page['props']['seo']['title'] }}">
+                    <meta data-inertia="og:description" property="og:description" content="{{ $page['props']['seo']['description'] }}">
+                    <meta data-inertia="og:locale" property="og:locale" content="{{ ($page['props']['locale'] ?? 'es') === 'en' ? 'en_US' : 'es_CO' }}">
+                @elseif ($page['component'] === 'PrivacyPolicy')
+                    <link data-inertia="canonical" rel="canonical" href="{{ ($page['props']['locale'] ?? 'es') === 'en' ? route('privacy.en') : route('privacy') }}">
+                    <link data-inertia="alternate-es" rel="alternate" hreflang="es-CO" href="{{ route('privacy') }}">
+                    <link data-inertia="alternate-en" rel="alternate" hreflang="en-US" href="{{ route('privacy.en') }}">
+                    <link data-inertia="alternate-default" rel="alternate" hreflang="x-default" href="{{ route('privacy') }}">
+                @endif
             @else
                 <title data-inertia>{{ config('app.name', 'Laravel') }}</title>
             @endif

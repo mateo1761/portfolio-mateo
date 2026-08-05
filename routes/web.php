@@ -19,6 +19,22 @@ Route::inertia('/en', 'Welcome', [
     ],
 ])->name('home.en');
 
+Route::inertia('/privacidad', 'PrivacyPolicy', [
+    'locale' => 'es',
+    'seo' => [
+        'title' => 'Política de tratamiento de datos personales | Portafolio Mateo',
+        'description' => 'Consulta cómo Portafolio Mateo trata los datos personales enviados mediante el formulario de contacto.',
+    ],
+])->name('privacy');
+
+Route::inertia('/en/privacy', 'PrivacyPolicy', [
+    'locale' => 'en',
+    'seo' => [
+        'title' => 'Personal Data Processing Policy | Portafolio Mateo',
+        'description' => 'Learn how Portafolio Mateo processes personal data submitted through the contact form.',
+    ],
+])->name('privacy.en');
+
 Route::post('contact', ContactController::class)
     ->middleware('throttle:contact')
     ->name('contact.store');
