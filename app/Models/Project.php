@@ -69,6 +69,8 @@ class Project extends Model
 
     /**
      * Scope the query to projects visible on the public portfolio.
+     *
+     * @param  Builder<Project>  $query
      */
     #[Scope]
     protected function published(Builder $query): void
@@ -78,6 +80,8 @@ class Project extends Model
 
     /**
      * Scope the query to the portfolio display order.
+     *
+     * @param  Builder<Project>  $query
      */
     #[Scope]
     protected function ordered(Builder $query): void

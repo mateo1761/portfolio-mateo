@@ -42,12 +42,14 @@ class Experience extends Model
         ];
     }
 
+    /** @param Builder<Experience> $query */
     #[Scope]
     protected function published(Builder $query): void
     {
         $query->where('is_published', true);
     }
 
+    /** @param Builder<Experience> $query */
     #[Scope]
     protected function ordered(Builder $query): void
     {
