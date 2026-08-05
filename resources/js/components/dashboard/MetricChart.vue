@@ -46,7 +46,11 @@ const labelIndexes = computed(() => {
         return props.points.map((_, index) => index);
     }
 
-    return [0, Math.floor((props.points.length - 1) / 2), props.points.length - 1];
+    return [
+        0,
+        Math.floor((props.points.length - 1) / 2),
+        props.points.length - 1,
+    ];
 });
 </script>
 

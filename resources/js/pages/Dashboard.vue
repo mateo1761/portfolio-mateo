@@ -44,7 +44,10 @@ const visibleMetrics = computed(() =>
     props.analytics.series.slice(-selectedDays.value),
 );
 const visibleTotals = computed(() => ({
-    visits: visibleMetrics.value.reduce((total, point) => total + point.visits, 0),
+    visits: visibleMetrics.value.reduce(
+        (total, point) => total + point.visits,
+        0,
+    ),
     contactSubmissions: visibleMetrics.value.reduce(
         (total, point) => total + point.contactSubmissions,
         0,
@@ -155,7 +158,7 @@ defineOptions({
                     </div>
 
                     <dl class="mt-6 grid grid-cols-3 gap-3">
-                        <div class="rounded-xl bg-portfolio-navy/45 p-3">
+                        <div class="bg-portfolio-navy/45 rounded-xl p-3">
                             <dt class="text-xs text-portfolio-muted">Total</dt>
                             <dd
                                 class="mt-1 text-2xl font-bold text-portfolio-text"
@@ -163,7 +166,7 @@ defineOptions({
                                 {{ section.summary.total }}
                             </dd>
                         </div>
-                        <div class="rounded-xl bg-portfolio-navy/45 p-3">
+                        <div class="bg-portfolio-navy/45 rounded-xl p-3">
                             <dt
                                 class="flex items-center gap-1 text-xs text-portfolio-muted"
                             >
@@ -176,7 +179,7 @@ defineOptions({
                                 {{ section.summary.published }}
                             </dd>
                         </div>
-                        <div class="rounded-xl bg-portfolio-navy/45 p-3">
+                        <div class="bg-portfolio-navy/45 rounded-xl p-3">
                             <dt
                                 class="flex items-center gap-1 text-xs text-portfolio-muted"
                             >
@@ -231,7 +234,7 @@ defineOptions({
                         v-for="days in periodOptions"
                         :key="days"
                         type="button"
-                        class="rounded-md px-3 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-portfolio-gold motion-reduce:transition-none"
+                        class="rounded-md px-3 py-2 text-sm font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-portfolio-gold motion-reduce:transition-none"
                         :class="
                             selectedDays === days
                                 ? 'bg-portfolio-gold text-portfolio-background'
