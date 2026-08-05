@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome', [
@@ -57,6 +58,7 @@ Route::post('contact', ContactController::class)
 
 Route::middleware(['auth'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+    Route::resource('projects', ProjectController::class)->except('show');
 });
 
 require __DIR__.'/settings.php';
