@@ -57,17 +57,9 @@ export interface PortfolioCopy {
         eyebrow: string;
         heading: string;
         privateLabel: string;
+        noRepositoryLabel: string;
         repositoryLabel: string;
         newTabLabel: string;
-        items: ReadonlyArray<{
-            number: string;
-            category: string;
-            title: string;
-            description: string;
-            technologies: string;
-            private: boolean;
-            url?: string;
-        }>;
     };
     education: {
         eyebrow: string;
@@ -210,39 +202,9 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             heading: 'Soluciones donde el código produjo resultados medibles.',
             privateLabel:
                 'Proyecto profesional privado. Información presentada sin datos confidenciales.',
+            noRepositoryLabel: 'Repositorio no disponible públicamente.',
             repositoryLabel: 'Ver repositorio',
             newTabLabel: 'abre en una pestaña nueva',
-            items: [
-                {
-                    number: '01',
-                    category: 'Sistema empresarial · Proyecto privado',
-                    title: 'Sistema de reportes dinámicos',
-                    description:
-                        'Plataforma utilizada por más de 600 usuarios que redujo aproximadamente un 50% el tiempo de generación de informes mediante filtros avanzados y conexiones dinámicas con bases de datos.',
-                    technologies: 'Laravel · Vue.js · SQL Server · APIs',
-                    private: true,
-                },
-                {
-                    number: '02',
-                    category: 'Logística · Automatización',
-                    title: 'Cotización y procesamiento inteligente',
-                    description:
-                        'Solución enfocada en transformar necesidades operativas del sector logístico en procesos digitales mantenibles, contenerizados e integrados con datos empresariales.',
-                    technologies: 'Python · PostgreSQL · Docker · IA aplicada',
-                    private: true,
-                },
-                {
-                    number: '03',
-                    category: 'Proyecto personal · Código público',
-                    title: 'Portafolio Mateo',
-                    description:
-                        'Portafolio profesional desarrollado con Laravel 13, Vue 3 e Inertia, con PostgreSQL, Docker, Laravel Sail, Nginx, HTTPS local, autenticación TOTP, correo y CI/CD.',
-                    technologies:
-                        'Laravel 13 · Vue 3 · Inertia · PostgreSQL · Docker',
-                    private: false,
-                    url: 'https://github.com/mateo1761/portfolio-mateo',
-                },
-            ],
         },
         education: {
             eyebrow: 'Formación',
@@ -395,39 +357,9 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             heading: 'Solutions where code delivered measurable results.',
             privateLabel:
                 'Private professional project. Presented without confidential information.',
+            noRepositoryLabel: 'Repository not publicly available.',
             repositoryLabel: 'View repository',
             newTabLabel: 'opens in a new tab',
-            items: [
-                {
-                    number: '01',
-                    category: 'Enterprise system · Private project',
-                    title: 'Dynamic reporting system',
-                    description:
-                        'A platform used by more than 600 users that reduced report generation time by approximately 50% through advanced filters and dynamic database connections.',
-                    technologies: 'Laravel · Vue.js · SQL Server · APIs',
-                    private: true,
-                },
-                {
-                    number: '02',
-                    category: 'Logistics · Automation',
-                    title: 'Intelligent quotation and processing',
-                    description:
-                        'A solution focused on turning operational logistics needs into maintainable, containerized digital processes integrated with enterprise data.',
-                    technologies: 'Python · PostgreSQL · Docker · Applied AI',
-                    private: true,
-                },
-                {
-                    number: '03',
-                    category: 'Personal project · Public source code',
-                    title: 'Portafolio Mateo',
-                    description:
-                        'A professional portfolio built with Laravel 13, Vue 3, and Inertia, featuring PostgreSQL, Docker, Laravel Sail, Nginx, local HTTPS, TOTP authentication, email, and CI/CD.',
-                    technologies:
-                        'Laravel 13 · Vue 3 · Inertia · PostgreSQL · Docker',
-                    private: false,
-                    url: 'https://github.com/mateo1761/portfolio-mateo',
-                },
-            ],
         },
         education: {
             eyebrow: 'Education',

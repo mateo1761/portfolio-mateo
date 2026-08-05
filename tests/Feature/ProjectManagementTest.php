@@ -126,12 +126,51 @@ test('authenticated users can delete projects', function () {
     $this->assertModelMissing($project);
 });
 
-test('administrative projects do not replace public hardcoded content yet', function () {
-    Project::factory()->published()->create();
+test('public portfolio displays only published projects in the configured order', function () {
+    Project::factory()->create([
+        'title_es' => 'Borrador privado',
+        'is_published' => false,
+        'sort_order' => 1,
+    ]);
+    $secondProject = Project::factory()->published()->create([
+        'title_es' => 'Segundo proyecto',
+        'repository_url' => null,
+        'sort_order' => 20,
+    ]);
+    $firstProject = Project::factory()->published()->create([
+        'title_es' => 'Primer proyecto',
+        'repository_url' => null,
+        'sort_order' => 10,
+    ]);
 
     $this->get(route('home'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('Welcome')
-            ->missing('projects'));
+            ->has('projects', 2)
+            ->where('projects.0.id', $firstProject->id)
+            ->where('projects.0.number', '01')
+            ->where('projects.0.title', 'Primer proyecto')
+            ->where('projects.0.url', null)
+            ->where('projects.1.id', $secondProject->id)
+            ->where('projects.1.number', '02'));
+});
+
+test('English portfolio receives English project content', function () {
+    $project = Project::factory()->published()->create([
+        'title_es' => 'Título en español',
+        'title_en' => 'English title',
+        'category_en' => 'English category',
+        'description_en' => 'English description',
+        'technologies_en' => 'Laravel · Vue.js',
+    ]);
+
+    $this->get(route('home.en'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('projects.0.id', $project->id)
+            ->where('projects.0.title', 'English title')
+            ->where('projects.0.category', 'English category')
+            ->where('projects.0.description', 'English description')
+            ->where('projects.0.technologies', 'Laravel · Vue.js'));
 });

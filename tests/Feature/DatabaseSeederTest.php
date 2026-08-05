@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Project;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,7 @@ test('database seeder creates one configured administrator idempotently', functi
     $this->seed(DatabaseSeeder::class);
 
     expect(User::query()->count())->toBe(1);
+    expect(Project::query()->count())->toBe(3);
 
     $administrator = User::query()->sole();
 
