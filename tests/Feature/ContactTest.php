@@ -43,13 +43,13 @@ test('contact form rejects honeypot submissions', function () {
             'email' => 'bot@example.com',
             'subject' => 'Automated message',
             'message' => 'This automated message should never be delivered.',
-            'company' => 'Spam Company',
+            'website' => 'https://spam.example.com',
             'privacy_consent' => '1',
         ]);
 
     $response
         ->assertRedirect(route('home'))
-        ->assertSessionHasErrors('company');
+        ->assertSessionHasErrors('website');
 
     Mail::assertNothingSent();
 });
@@ -65,7 +65,7 @@ test('contact form returns validation messages in English', function () {
             'email' => 'invalid-email',
             'subject' => '',
             'message' => 'Too short',
-            'company' => '',
+            'website' => '',
             'privacy_consent' => '1',
         ]);
 
@@ -92,7 +92,7 @@ test('contact form returns validation messages in Spanish', function () {
             'email' => 'invalid-email',
             'subject' => '',
             'message' => 'Muy corto',
-            'company' => '',
+            'website' => '',
             'privacy_consent' => '1',
         ]);
 
@@ -118,7 +118,7 @@ test('contact form sends a message to the configured recipient', function () {
             'email' => 'visitor@example.com',
             'subject' => 'Laravel opportunity',
             'message' => 'I would like to discuss a Laravel and Vue opportunity.',
-            'company' => '',
+            'website' => '',
             'privacy_consent' => '1',
         ]);
 
@@ -131,7 +131,7 @@ test('contact form sends a message to the configured recipient', function () {
             && $message->name === 'Portfolio Visitor'
             && $message->email === 'visitor@example.com'
             && $message->contactSubject === 'Laravel opportunity'
-            && $message->policyVersion === '1.0'
+            && $message->policyVersion === '1.1'
             && $message->formLocale === 'es';
     });
 });
@@ -171,7 +171,7 @@ test('contact form is rate limited', function () {
         'email' => 'visitor@example.com',
         'subject' => 'Laravel opportunity',
         'message' => 'I would like to discuss a Laravel and Vue opportunity.',
-        'company' => '',
+        'website' => '',
         'privacy_consent' => '1',
     ];
 
@@ -195,7 +195,7 @@ test('contact form requires express privacy authorization in both languages', fu
             'email' => 'visitor@example.com',
             'subject' => 'Laravel opportunity',
             'message' => 'I would like to discuss a Laravel and Vue opportunity.',
-            'company' => '',
+            'website' => '',
         ])
         ->assertRedirect($referrer)
         ->assertSessionHasErrors([

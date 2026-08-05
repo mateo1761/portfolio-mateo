@@ -194,7 +194,7 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             heading: '¿Hablamos sobre una oportunidad?',
             description:
                 'Escríbeme si tienes un proyecto, una vacante o una idea en la que podamos trabajar juntos.',
-            honeypotLabel: 'Empresa',
+            honeypotLabel: 'Deja este campo vacío',
             nameLabel: 'Nombre',
             emailLabel: 'Correo',
             subjectLabel: 'Asunto',
@@ -324,7 +324,7 @@ export const portfolioCopy: Record<PortfolioLocale, PortfolioCopy> = {
             heading: 'Shall we discuss an opportunity?',
             description:
                 'Contact me if you have a project, an open position, or an idea we could work on together.',
-            honeypotLabel: 'Company',
+            honeypotLabel: 'Leave this field empty',
             nameLabel: 'Name',
             emailLabel: 'Email',
             subjectLabel: 'Subject',

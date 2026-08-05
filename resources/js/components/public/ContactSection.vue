@@ -88,13 +88,17 @@ function handleError(errors: Record<string, string>): void {
                 class="absolute -left-[9999px] size-px overflow-hidden"
                 aria-hidden="true"
             >
-                <label for="company">{{ props.copy.honeypotLabel }}</label>
+                <label for="portfolio-website">
+                    {{ props.copy.honeypotLabel }}
+                </label>
                 <input
-                    id="company"
+                    id="portfolio-website"
                     type="text"
-                    name="company"
+                    name="website"
                     tabindex="-1"
                     autocomplete="off"
+                    data-1p-ignore
+                    data-lpignore="true"
                 />
             </div>
 

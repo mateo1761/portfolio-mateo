@@ -17,6 +17,7 @@ Route::get('/en', HomeController::class)
 
 Route::inertia('/privacidad', 'PrivacyPolicy', [
     'locale' => 'es',
+    'policyVersion' => config('privacy.policy_version'),
     'seo' => [
         'title' => 'Política de tratamiento de datos personales | Portafolio Mateo',
         'description' => 'Consulta cómo Portafolio Mateo trata los datos personales enviados mediante el formulario de contacto.',
@@ -25,6 +26,7 @@ Route::inertia('/privacidad', 'PrivacyPolicy', [
 
 Route::inertia('/en/privacy', 'PrivacyPolicy', [
     'locale' => 'en',
+    'policyVersion' => config('privacy.policy_version'),
     'seo' => [
         'title' => 'Personal Data Processing Policy | Portafolio Mateo',
         'description' => 'Learn how Portafolio Mateo processes personal data submitted through the contact form.',

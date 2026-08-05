@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\RecordDailySiteMetricAction;
 use App\Models\Experience;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,14 +10,18 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use function Illuminate\Support\defer;
+
 class HomeController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, RecordDailySiteMetricAction $recordMetric): Response
     {
         $locale = $request->route('locale') === 'en' ? 'en' : 'es';
+
+        defer(fn () => $recordMetric->recordVisit());
 
         return Inertia::render('Welcome', [
             'locale' => $locale,

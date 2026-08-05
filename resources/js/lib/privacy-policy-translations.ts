@@ -33,7 +33,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             'Esta política explica, en lenguaje claro, cómo Mateo Quintero Zapata trata los datos personales recibidos mediante Portafolio Mateo.',
         versionLabel: 'Versión',
         effectiveDateLabel: 'Vigente desde',
-        effectiveDate: '4 de agosto de 2026',
+        effectiveDate: '5 de agosto de 2026',
         sections: [
             {
                 heading: '1. Responsable del tratamiento',
@@ -53,7 +53,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
                 items: [
                     'Recibir, responder y realizar seguimiento a consultas sobre proyectos, vacantes u oportunidades profesionales.',
                     'Proteger el formulario, prevenir abuso y mantener la seguridad y disponibilidad del sitio.',
-                    'Obtener en el futuro métricas agregadas de visitas y formularios enviados, sin guardar nombres, correos, mensajes, perfilado, huellas digitales ni direcciones IP persistentes.',
+                    'Obtener métricas agregadas de visitas y formularios enviados correctamente, sin guardar nombres, correos, mensajes, perfilado, huellas digitales, cookies analíticas ni direcciones IP en estos contadores.',
                 ],
             },
             {
@@ -69,6 +69,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
                     'Los logs operativos y backups ordinarios se conservarán hasta 90 días.',
                     'Los registros asociados con un incidente documentado podrán conservarse hasta un año.',
                     'Los datos temporales de sesión, CSRF, caché y limitación de solicitudes expiran conforme a la configuración técnica del servicio.',
+                    'Los conteos diarios agregados de visitas y formularios enviados se conservarán durante 12 meses. No permiten identificar visitantes ni reconstruir el contenido de una consulta.',
                 ],
             },
             {
@@ -99,7 +100,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             {
                 heading: '10. Cookies y recursos externos',
                 paragraphs: [
-                    'Actualmente solo se usan cookies o identificadores técnicos esenciales para seguridad, sesión y autenticación administrativa. No hay publicidad, perfilado ni analítica activa, por lo que no se muestra un banner de consentimiento de cookies. Los enlaces externos solo transmiten datos a terceros cuando el visitante decide abrirlos.',
+                    'Actualmente solo se usan cookies o identificadores técnicos esenciales para seguridad, sesión y autenticación administrativa. La medición propia usa únicamente contadores diarios agregados y no instala cookies analíticas. No hay publicidad ni perfilado, por lo que no se muestra un banner de consentimiento de cookies. Los enlaces externos solo transmiten datos a terceros cuando el visitante decide abrirlos.',
                 ],
             },
             {
@@ -123,7 +124,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             'This policy explains in plain language how Mateo Quintero Zapata processes personal data received through Portafolio Mateo.',
         versionLabel: 'Version',
         effectiveDateLabel: 'Effective from',
-        effectiveDate: 'August 4, 2026',
+        effectiveDate: 'August 5, 2026',
         sections: [
             {
                 heading: '1. Data controller',
@@ -143,7 +144,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
                 items: [
                     'Receive, answer, and follow up on inquiries about projects, vacancies, or professional opportunities.',
                     'Protect the form, prevent abuse, and maintain the security and availability of the site.',
-                    'In the future, obtain aggregate visit and form-submission metrics without storing names, email addresses, messages, profiles, fingerprints, or persistent IP addresses.',
+                    'Obtain aggregate metrics for visits and successfully submitted forms without storing names, email addresses, messages, profiles, fingerprints, analytics cookies, or IP addresses in these counters.',
                 ],
             },
             {
@@ -159,6 +160,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
                     'Ordinary operational logs and backups will be retained for up to 90 days.',
                     'Records associated with a documented incident may be retained for up to one year.',
                     'Temporary session, CSRF, cache, and rate-limiting data expire according to the service’s technical configuration.',
+                    'Aggregate daily counts of visits and submitted forms will be retained for 12 months. They cannot identify visitors or reconstruct the content of an inquiry.',
                 ],
             },
             {
@@ -189,7 +191,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             {
                 heading: '10. Cookies and external resources',
                 paragraphs: [
-                    'Only essential cookies or technical identifiers for security, sessions, and administrator authentication are currently used. There is no advertising, profiling, or active analytics, so no cookie-consent banner is displayed. External links transmit data to third parties only when a visitor chooses to open them.',
+                    'Only essential cookies or technical identifiers for security, sessions, and administrator authentication are currently used. First-party measurement uses aggregate daily counters and does not install analytics cookies. There is no advertising or profiling, so no cookie-consent banner is displayed. External links transmit data to third parties only when a visitor chooses to open them.',
                 ],
             },
             {
