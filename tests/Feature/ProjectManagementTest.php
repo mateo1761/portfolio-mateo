@@ -67,19 +67,35 @@ test('authenticated users can create bilingual projects', function () {
         ->is_published->toBeTrue();
 });
 
-test('project input is validated by the backend', function (array $overrides, string $field) {
+test('project input is validated by the backend with readable messages', function (array $overrides, string $field, string $message) {
     $user = User::factory()->create();
 
     $this->actingAs($user)
         ->post(route('projects.store'), validProjectData($overrides))
-        ->assertSessionHasErrors($field);
+        ->assertSessionHasErrors([$field => $message]);
 
     expect(Project::query()->exists())->toBeFalse();
 })->with([
-    'missing Spanish title' => [['title_es' => ''], 'title_es'],
-    'missing English description' => [['description_en' => ''], 'description_en'],
-    'invalid repository URL' => [['repository_url' => 'not-a-url'], 'repository_url'],
-    'negative order' => [['sort_order' => -1], 'sort_order'],
+    'missing Spanish title' => [
+        ['title_es' => ''],
+        'title_es',
+        'The Spanish title field is required.',
+    ],
+    'missing English description' => [
+        ['description_en' => ''],
+        'description_en',
+        'The English description field is required.',
+    ],
+    'invalid repository URL' => [
+        ['repository_url' => 'not-a-url'],
+        'repository_url',
+        'The repository URL must be a valid HTTP or HTTPS URL.',
+    ],
+    'negative order' => [
+        ['sort_order' => -1],
+        'sort_order',
+        'The sort order must be at least 0.',
+    ],
 ]);
 
 test('authenticated users can update projects', function () {
