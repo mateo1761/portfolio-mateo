@@ -13,7 +13,7 @@ import PublicHeader from '@/components/public/PublicHeader.vue';
 import { Toaster } from '@/components/ui/sonner';
 import { portfolioCopy } from '@/lib/portfolio-translations';
 import type { PortfolioLocale } from '@/lib/portfolio-translations';
-import type { PublicProject } from '@/types';
+import type { PublicExperience, PublicProject } from '@/types';
 
 const props = defineProps<{
     locale: PortfolioLocale;
@@ -22,6 +22,7 @@ const props = defineProps<{
         description: string;
     };
     projects: PublicProject[];
+    experiences: PublicExperience[];
 }>();
 
 const copy = computed(() => portfolioCopy[props.locale]);
@@ -68,7 +69,10 @@ const copy = computed(() => portfolioCopy[props.locale]);
             <HeroSection :copy="copy.hero" />
             <AchievementsStrip :copy="copy.achievements" />
             <AboutSection :copy="copy.about" />
-            <ExperienceSection :copy="copy.experience" />
+            <ExperienceSection
+                :copy="copy.experience"
+                :experiences="props.experiences"
+            />
             <ProjectsSection :copy="copy.projects" :projects="props.projects" />
             <EducationSection :copy="copy.education" />
             <ContactSection :locale="props.locale" :copy="copy.contact" />
