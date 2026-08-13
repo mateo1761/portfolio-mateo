@@ -24,12 +24,42 @@ test('production security policies use a nonce', function () {
         ->assertHeader('Content-Security-Policy');
 
     $policy = (string) $response->headers->get('Content-Security-Policy');
+    $content = $response->getContent();
+
+    preg_match("/style-src 'self' 'nonce-([^']+)'/", $policy, $headerNonceMatches);
+    preg_match('/<meta property="csp-nonce" nonce="([^"]+)">/', $content, $metaNonceMatches);
 
     expect($policy)
         ->toContain("default-src 'self'")
         ->toContain("frame-ancestors 'none'")
         ->toMatch("/script-src 'self' 'nonce-[^']+'/")
-        ->and($response->getContent())
+        ->not->toContain("'unsafe-inline'")
+        ->and($content)
         ->toMatch('/<script nonce="[^"]+">/')
-        ->toMatch('/<style nonce="[^"]+">/');
+        ->toMatch('/<style nonce="[^"]+">/')
+        ->and($headerNonceMatches[1] ?? null)
+        ->not->toBeEmpty()
+        ->toBe($metaNonceMatches[1] ?? null);
+});
+
+test('separate responses use different content security policy nonces', function () {
+    config()->set('security.content_security_policy', true);
+
+    $firstResponse = $this->get('/');
+    $secondResponse = $this->get('/');
+
+    preg_match(
+        "/style-src 'self' 'nonce-([^']+)'/",
+        (string) $firstResponse->headers->get('Content-Security-Policy'),
+        $firstNonceMatches,
+    );
+    preg_match(
+        "/style-src 'self' 'nonce-([^']+)'/",
+        (string) $secondResponse->headers->get('Content-Security-Policy'),
+        $secondNonceMatches,
+    );
+
+    expect($firstNonceMatches[1] ?? null)
+        ->not->toBeEmpty()
+        ->not->toBe($secondNonceMatches[1] ?? null);
 });

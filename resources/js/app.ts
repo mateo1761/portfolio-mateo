@@ -6,8 +6,13 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const cspNonceMeta = document.querySelector<HTMLMetaElement>(
+    'meta[property="csp-nonce"]',
+);
+const nonce = cspNonceMeta?.nonce || undefined;
 
 createInertiaApp({
+    nonce,
     title: (title) =>
         title
             ? title.endsWith(appName)
