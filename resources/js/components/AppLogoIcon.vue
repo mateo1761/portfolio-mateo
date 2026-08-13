@@ -15,13 +15,27 @@ defineProps<Props>();
 <template>
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 48 48"
+        viewBox="0 0 64 64"
         :class="className"
         v-bind="$attrs"
     >
+        <rect
+            x="3"
+            y="3"
+            width="58"
+            height="58"
+            rx="15"
+            fill="#09111a"
+            stroke="#c39a3c"
+            stroke-width="3"
+        />
         <path
-            fill="currentColor"
-            d="M8 10h7.25L24 24.25 32.75 10H40v28h-6V19.5L24 35 14 19.5V38H8V10Z"
+            d="M16 44V20l16 17 16-17v24"
+            fill="none"
+            stroke="#c39a3c"
+            stroke-width="6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
         />
     </svg>
 </template>

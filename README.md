@@ -23,8 +23,9 @@ Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funci
 - Experiencia pública bilingüe en español e inglés, con rutas y metadatos SEO específicos por idioma.
 - Desarrollo local reproducible mediante Docker Compose, Laravel Sail y HTTPS confiable.
 - Fotografía profesional procesada por Vite y hoja de vida pública descargable.
-- Persistencia con PostgreSQL y pruebas aisladas con SQLite en memoria.
+- Persistencia y pruebas de integración con PostgreSQL 16.
 - Calidad continua con Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC.
+- Cabeceras HTTP defensivas y CSP con nonce habilitadas automáticamente en producción.
 
 ## Funcionalidades
 
@@ -38,6 +39,7 @@ Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funci
 | Implementado | Portada profesional con fotografía, proyectos y CV descargable                       |
 | Implementado | Contenido público y SEO en español (`/`) e inglés (`/en`)                            |
 | Implementado | Formulario de contacto bilingüe con validación, honeypot y limitación de solicitudes |
+| Implementado | Consentimiento anonimizado, métricas diarias y política de retención                  |
 
 ## Arquitectura
 
@@ -45,7 +47,7 @@ Este proyecto presenta mi perfil, experiencia y trabajo, y al mismo tiempo funci
 | --------------------- | -------------------------------------------------------- |
 | Backend               | Laravel 13, PHP 8.5 y Laravel Fortify                    |
 | Frontend              | Vue 3, TypeScript, Inertia.js 3 y Tailwind CSS 4         |
-| Datos                 | PostgreSQL 16 en desarrollo y SQLite en CI               |
+| Datos                 | PostgreSQL 16 en desarrollo, CI y producción             |
 | Infraestructura local | Docker Compose, Laravel Sail, Nginx y mkcert             |
 | Correo local          | Mailpit                                                  |
 | Calidad               | Pest, Pint, PHPStan/Larastan, ESLint, Prettier y Vue TSC |
@@ -109,12 +111,50 @@ La fotografía se procesa desde `resources/images/mateo-quintero.webp`. La hoja 
 ./vendor/bin/sail npm run build
 ```
 
-GitHub Actions ejecuta las comprobaciones con SQLite en memoria y no depende de Docker ni PostgreSQL.
+GitHub Actions levanta PostgreSQL 16 y ejecuta análisis estático, formato, lint, comprobación de tipos, pruebas y auditorías de seguridad para Composer y npm. Dependabot revisa semanalmente Composer, npm y GitHub Actions.
 
-## Próximos pasos
+## Producción
 
-- Definir el dominio de producción y completar las URL canónicas y Open Graph cuando esté disponible.
+La aplicación está preparada para desplegarse en una plataforma Laravel administrada —Laravel Cloud es la opción recomendada— o en una infraestructura que proporcione PHP 8.5, PostgreSQL 16, HTTPS, un scheduler y procesos persistentes para colas. `compose.yaml`, Mailpit, mkcert y `portfolio-mateo.test` pertenecen exclusivamente al entorno local y no deben reutilizarse como infraestructura de producción.
+
+Usa [.env.production.example](.env.production.example) como inventario de variables, pero almacena los valores reales en el gestor de secretos de la plataforma. Nunca confirmes `.env.production`, credenciales, certificados ni llaves. Antes del primer despliegue deben estar definidos, como mínimo:
+
+- `APP_KEY`, `APP_URL`, `APP_DEBUG=false` y `APP_ENV=production`.
+- Conexión PostgreSQL con TLS y una estrategia externa de backups verificados.
+- SMTP transaccional real, remitente validado y destinatario de contacto.
+- Credenciales iniciales del administrador y una clave independiente para anonimizar consentimientos.
+- Cookies seguras, CSP y HSTS habilitados.
+- Logs persistentes, monitoreo de `/up` y alertas de errores.
+
+El despliegue debe instalar dependencias reproducibles, compilar los recursos y optimizar Laravel:
+
+```bash
+composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+npm ci
+npm run build
+php artisan migrate --force
+php artisan optimize
+php artisan queue:restart
+```
+
+La plataforma debe mantener activos un worker (`php artisan queue:work`) y el scheduler (`php artisan schedule:work` o una invocación por minuto a `schedule:run`). Después del primer `db:seed --class=DatabaseSeeder`, cambia la contraseña desde la aplicación y elimina `ADMIN_PASSWORD` del entorno si el proveedor permite separar secretos de inicialización.
+
+Checklist previo a cada publicación:
+
+```bash
+composer audit --locked
+npm audit
+composer ci:check
+npm run build
+```
+
+Las respuestas Laravel eliminan `X-Powered-By` e incluyen protección contra MIME sniffing, framing, filtración de referrer y permisos del navegador. En producción también incluyen HSTS y una Content Security Policy basada en nonce. El proxy o CDN debe conservar estas cabeceras y restringir el dominio configurado en `APP_URL`.
+
+## Pendiente del lanzamiento
+
+- Definir el dominio definitivo y completar las URL canónicas y Open Graph.
 - Preparar una imagen social específica para Open Graph.
+- Seleccionar la plataforma, configurar backups, correo, monitoreo, worker y scheduler.
 - Añadir el texto formal de licencia.
 
 ## Autor

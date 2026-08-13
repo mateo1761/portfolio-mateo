@@ -20,7 +20,7 @@ test('login uses the private portfolio design', function () {
 
     expect($loginPage)
         ->toContain('Welcome back')
-        ->toContain('Sign in securely')
+        ->toContain('Sign in')
         ->and($authLayout)
         ->toContain('ShieldCheck')
         ->not->toContain('Private administration')

@@ -13,9 +13,27 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     env:
-      DB_CONNECTION: sqlite
-      DB_DATABASE: ':memory:'
-      DB_URL: ''
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: portfolio_mateo_test
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: portfolio_mateo_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d portfolio_mateo_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
 
     steps:
       - name: Checkout code
@@ -37,6 +55,12 @@ jobs:
 
       - name: Setup Application
         run: composer setup
+
+      - name: Audit PHP dependencies
+        run: composer audit --locked
+
+      - name: Audit JavaScript dependencies
+        run: npm audit
 
       - name: Run CI Checks
         run: composer ci:check
