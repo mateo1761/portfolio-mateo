@@ -1,9 +1,20 @@
 <?php
 
 use App\Providers\AppServiceProvider;
+use Illuminate\Http\Middleware\TrustHosts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+
+test('trusts only the configured application and internal health check hosts', function () {
+    config(['app.url' => 'https://portfolio.example']);
+
+    expect(app(TrustHosts::class)->hosts())->toBe([
+        '^portfolio\\.example$',
+        '^127\\.0\\.0\\.1$',
+        '^localhost$',
+    ]);
+});
 
 test('trusts HTTPS forwarded by the local Docker proxy', function () {
     config(['session.secure' => true]);

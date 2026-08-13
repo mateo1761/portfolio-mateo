@@ -17,7 +17,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->trustHosts(subdomains: false);
+        $middleware->trustHosts(
+            at: static function (): array {
+                $appHost = parse_url((string) config('app.url'), PHP_URL_HOST);
+
+                return array_values(array_filter([
+                    $appHost ? '^'.preg_quote($appHost).'$' : null,
+                    '^127\.0\.0\.1$',
+                    '^localhost$',
+                ]));
+            },
+            subdomains: false,
+        );
 
         $middleware->trustProxies(
             headers: Request::HEADER_X_FORWARDED_FOR
