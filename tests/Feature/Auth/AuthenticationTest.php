@@ -14,6 +14,19 @@ test('login screen can be rendered', function () {
     $response->assertOk();
 });
 
+test('login uses the private portfolio design', function () {
+    $loginPage = file_get_contents(resource_path('js/pages/auth/Login.vue'));
+    $authLayout = file_get_contents(resource_path('js/layouts/auth/AuthSimpleLayout.vue'));
+
+    expect($loginPage)
+        ->toContain('Welcome back')
+        ->toContain('Sign in securely')
+        ->and($authLayout)
+        ->toContain('ShieldCheck')
+        ->not->toContain('Private administration')
+        ->not->toContain('adminPortrait');
+});
+
 test('public registration and email verification routes are disabled', function () {
     expect(Route::has('register'))->toBeFalse()
         ->and(Route::has('register.store'))->toBeFalse()

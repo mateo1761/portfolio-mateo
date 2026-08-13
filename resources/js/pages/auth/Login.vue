@@ -13,8 +13,8 @@ import { request } from '@/routes/password';
 
 defineOptions({
     layout: {
-        title: 'Log in to your account',
-        description: 'Enter your email and password below to log in',
+        title: 'Welcome back',
+        description: 'Sign in to continue to the private administration panel.',
     },
 });
 
@@ -29,7 +29,7 @@ defineProps<{
 
     <div
         v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-6 rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-300"
     >
         {{ status }}
     </div>
@@ -38,11 +38,13 @@ defineProps<{
         v-bind="store.form()"
         :reset-on-success="['password']"
         v-slot="{ errors, processing }"
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-6 text-portfolio-text"
     >
         <div class="grid gap-6">
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email" class="text-portfolio-text"
+                    >Email address</Label
+                >
                 <Input
                     id="email"
                     type="email"
@@ -52,17 +54,20 @@ defineProps<{
                     :tabindex="1"
                     autocomplete="email"
                     placeholder="email@example.com"
+                    class="h-11 border-portfolio-divider bg-portfolio-background/50 text-portfolio-text placeholder:text-portfolio-muted/60 focus-visible:border-portfolio-gold focus-visible:ring-portfolio-gold/20"
                 />
                 <InputError :message="errors.email" />
             </div>
 
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
-                    <Label for="password">Password</Label>
+                    <Label for="password" class="text-portfolio-text"
+                        >Password</Label
+                    >
                     <TextLink
                         v-if="canResetPassword"
                         :href="request()"
-                        class="text-sm"
+                        class="text-sm text-portfolio-gold hover:text-portfolio-text"
                         :tabindex="5"
                     >
                         Forgot your password?
@@ -75,12 +80,16 @@ defineProps<{
                     :tabindex="2"
                     autocomplete="current-password"
                     placeholder="Password"
+                    class="h-11 border-portfolio-divider bg-portfolio-background/50 text-portfolio-text placeholder:text-portfolio-muted/60 focus-visible:border-portfolio-gold focus-visible:ring-portfolio-gold/20"
                 />
                 <InputError :message="errors.password" />
             </div>
 
             <div class="flex items-center justify-between">
-                <Label for="remember" class="flex items-center space-x-3">
+                <Label
+                    for="remember"
+                    class="flex items-center gap-3 text-sm text-portfolio-muted"
+                >
                     <Checkbox id="remember" name="remember" :tabindex="3" />
                     <span>Remember me</span>
                 </Label>
@@ -88,13 +97,13 @@ defineProps<{
 
             <Button
                 type="submit"
-                class="mt-4 w-full"
+                class="mt-2 h-11 w-full bg-portfolio-gold font-semibold text-portfolio-background hover:bg-portfolio-gold/90 focus-visible:ring-portfolio-gold/40"
                 :tabindex="4"
                 :disabled="processing"
                 data-test="login-button"
             >
                 <Spinner v-if="processing" />
-                Log in
+                Sign in
             </Button>
         </div>
     </Form>

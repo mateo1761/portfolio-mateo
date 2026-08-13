@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
-import { Check, Copy } from '@lucide/vue';
+import { Check, Copy, RefreshCw } from '@lucide/vue';
 import { useClipboard } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
 import AlertError from '@/components/AlertError.vue';
@@ -25,8 +25,13 @@ const props = defineProps<{
 
 const isOpen = defineModel<boolean>('isOpen');
 const { copy, copied } = useClipboard();
-const { qrCodeSvg, manualSetupKey, errors, fetchSetupData } =
-    useTwoFactorAuth();
+const {
+    qrCodeSvg,
+    manualSetupKey,
+    errors,
+    isLoadingSetupData,
+    fetchSetupData,
+} = useTwoFactorAuth();
 const showConfirmation = ref(false);
 const code = ref('');
 
@@ -62,7 +67,23 @@ watch(
                 </DialogDescription>
             </DialogHeader>
 
-            <AlertError v-if="errors.length" :errors="errors" />
+            <div v-if="errors.length" class="space-y-3">
+                <AlertError
+                    title="No fue posible cargar la configuración"
+                    :errors="errors"
+                />
+                <Button
+                    type="button"
+                    variant="outline"
+                    class="w-full"
+                    :disabled="isLoadingSetupData"
+                    @click="fetchSetupData"
+                >
+                    <Spinner v-if="isLoadingSetupData" />
+                    <RefreshCw v-else />
+                    Intentar nuevamente
+                </Button>
+            </div>
 
             <template v-else-if="!showConfirmation">
                 <div class="mx-auto size-64 rounded-lg border bg-white p-5">
