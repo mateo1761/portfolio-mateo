@@ -1,7 +1,9 @@
 <?php
 
+use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 test('trusts HTTPS forwarded by the local Docker proxy', function () {
     config(['session.secure' => true]);
@@ -37,4 +39,20 @@ test('trusts HTTPS forwarded by the local Docker proxy', function () {
 
     expect($sessionCookie)->not->toBeNull()
         ->and($sessionCookie->isSecure())->toBeTrue();
+});
+
+test('forces generated HTTPS URLs when the production URL uses HTTPS', function () {
+    $originalEnvironment = app()->environment();
+
+    try {
+        app()->detectEnvironment(fn (): string => 'production');
+        config(['app.url' => 'https://portfolio.example']);
+
+        (new AppServiceProvider(app()))->boot();
+
+        expect(url('/build/app.js'))->toBe('https://localhost/build/app.js');
+    } finally {
+        URL::forceScheme(null);
+        app()->detectEnvironment(fn (): string => $originalEnvironment);
+    }
 });

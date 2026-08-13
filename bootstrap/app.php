@@ -3,6 +3,7 @@
 use App\Http\Middleware\AddSecurityHeaders;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\RunOpportunisticMaintenance;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,7 +20,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustHosts(subdomains: false);
 
         $middleware->trustProxies(
-            at: ['172.16.0.0/12'],
             headers: Request::HEADER_X_FORWARDED_FOR
                 | Request::HEADER_X_FORWARDED_HOST
                 | Request::HEADER_X_FORWARDED_PORT
@@ -32,6 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
             AddSecurityHeaders::class,
             HandleAppearance::class,
             HandleInertiaRequests::class,
+            RunOpportunisticMaintenance::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
     })

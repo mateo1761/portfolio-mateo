@@ -62,6 +62,10 @@ export default defineConfig({
         }),
         wayfinder({
             formVariants: true,
+            command:
+                process.env.WAYFINDER_SKIP_GENERATION === '1'
+                    ? 'true'
+                    : undefined,
         }),
     ],
 });

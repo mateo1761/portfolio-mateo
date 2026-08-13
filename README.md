@@ -115,7 +115,9 @@ GitHub Actions levanta PostgreSQL 16 y ejecuta análisis estático, formato, lin
 
 ## Producción
 
-La aplicación está preparada para desplegarse en una plataforma Laravel administrada —Laravel Cloud es la opción recomendada— o en una infraestructura que proporcione PHP 8.5, PostgreSQL 16, HTTPS, un scheduler y procesos persistentes para colas. `compose.yaml`, Mailpit, mkcert y `portfolio-mateo.test` pertenecen exclusivamente al entorno local y no deben reutilizarse como infraestructura de producción.
+La ruta de despliegue preparada para Koyeb usa el [Dockerfile](Dockerfile) multi-stage: Composer instala únicamente dependencias de producción, Node compila Vue/Vite y la imagen final ejecuta PHP 8.5 con FrankenPHP/Caddy. El servidor escucha el `PORT` dinámico, se ejecuta sin privilegios, expone solamente `public/` y registra en stdout/stderr. La imagen final no contiene Node, npm, dependencias de desarrollo, pruebas ni source maps.
+
+Esta imagen es independiente de Sail. `compose.yaml`, Mailpit, Nginx local, mkcert y `portfolio-mateo.test` siguen siendo exclusivamente para desarrollo y no se copian a producción.
 
 Usa [.env.production.example](.env.production.example) como inventario de variables, pero almacena los valores reales en el gestor de secretos de la plataforma. Nunca confirmes `.env.production`, credenciales, certificados ni llaves. Antes del primer despliegue deben estar definidos, como mínimo:
 
@@ -124,20 +126,17 @@ Usa [.env.production.example](.env.production.example) como inventario de variab
 - SMTP transaccional real, remitente validado y destinatario de contacto.
 - Credenciales iniciales del administrador y una clave independiente para anonimizar consentimientos.
 - Cookies seguras, CSP y HSTS habilitados.
-- Logs persistentes, monitoreo de `/up` y alertas de errores.
+- Recolección externa de stdout/stderr, monitoreo HTTP de `/up` y alertas de errores.
 
-El despliegue debe instalar dependencias reproducibles, compilar los recursos y optimizar Laravel:
+Construcción local de la misma imagen que consumirá Koyeb:
 
 ```bash
-composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
-npm ci
-npm run build
-php artisan migrate --force
-php artisan optimize
-php artisan queue:restart
+docker build --tag portfolio-mateo:production .
 ```
 
-La plataforma debe mantener activos un worker (`php artisan queue:work`) y el scheduler (`php artisan schedule:work` o una invocación por minuto a `schedule:run`). Después del primer `db:seed --class=DatabaseSeeder`, cambia la contraseña desde la aplicación y elimina `ADMIN_PASSWORD` del entorno si el proveedor permite separar secretos de inicialización.
+El plan gratuito inicial usa `QUEUE_CONNECTION=sync`; no presupone un worker ni scheduler permanentes. La única tarea programada inventariada es la eliminación diaria de consentimientos y métricas con más de 12 meses. En este despliegue se ejecuta de forma oportunista, como máximo una vez al día y protegida por un lock compartido. Puede desactivarse con `OPPORTUNISTIC_PRUNING_ENABLED=false` cuando exista un scheduler externo real.
+
+El inicio del contenedor no ejecuta migraciones ni seeders. Ejecuta `php artisan migrate --force` como operación explícita y controlada después de verificar la copia de seguridad y la conexión TLS. El administrador se crea una sola vez con el seeder autorizado; después cambia la contraseña y retira `ADMIN_PASSWORD` si el proveedor permite separar secretos de inicialización.
 
 Checklist previo a cada publicación:
 
@@ -154,7 +153,8 @@ Las respuestas Laravel eliminan `X-Powered-By` e incluyen protección contra MIM
 
 - Definir el dominio definitivo y completar las URL canónicas y Open Graph.
 - Preparar una imagen social específica para Open Graph.
-- Seleccionar la plataforma, configurar backups, correo, monitoreo, worker y scheduler.
+- Crear y validar los recursos externos de Koyeb/PostgreSQL/Brevo, backups, correo y monitoreo.
+- Sustituir la poda oportunista por un scheduler real cuando el plan lo permita.
 - Añadir el texto formal de licencia.
 
 ## Autor
