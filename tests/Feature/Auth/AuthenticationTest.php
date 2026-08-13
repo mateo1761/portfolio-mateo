@@ -3,7 +3,10 @@
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
 use Laravel\Fortify\Features;
+
+use function Pest\Laravel\mock;
 
 test('login screen can be rendered', function () {
     $response = $this->get(route('login'));
@@ -65,6 +68,75 @@ test('two factor challenge screen can be rendered for a challenged user', functi
     $this->withSession(['login.id' => $user->id])
         ->get(route('two-factor.login'))
         ->assertOk();
+});
+
+test('users can complete the two factor challenge with a valid authenticator code', function () {
+    $user = User::factory()->withTwoFactor()->create();
+
+    mock(TwoFactorAuthenticationProvider::class)
+        ->shouldReceive('verify')
+        ->once()
+        ->with('test-two-factor-secret', '123456')
+        ->andReturnTrue();
+
+    $response = $this
+        ->withSession(['login.id' => $user->id])
+        ->post(route('two-factor.login.store'), [
+            'code' => '123456',
+        ]);
+
+    $response
+        ->assertRedirect(route('dashboard', absolute: false))
+        ->assertSessionMissing('login.id');
+    $this->assertAuthenticatedAs($user);
+});
+
+test('users remain guests when the authenticator code is invalid', function () {
+    $user = User::factory()->withTwoFactor()->create();
+
+    mock(TwoFactorAuthenticationProvider::class)
+        ->shouldReceive('verify')
+        ->once()
+        ->andReturnFalse();
+
+    $this
+        ->withSession(['login.id' => $user->id])
+        ->from(route('two-factor.login'))
+        ->post(route('two-factor.login.store'), [
+            'code' => '000000',
+        ])
+        ->assertRedirect(route('two-factor.login'))
+        ->assertSessionHasErrors('code')
+        ->assertSessionHas('login.id', $user->id);
+
+    $this->assertGuest();
+});
+
+test('recovery codes authenticate once and are then consumed', function () {
+    $user = User::factory()->withTwoFactor()->create();
+
+    $this
+        ->withSession(['login.id' => $user->id])
+        ->post(route('two-factor.login.store'), [
+            'recovery_code' => 'test-recovery-code',
+        ])
+        ->assertRedirect(route('dashboard', absolute: false));
+
+    $this->assertAuthenticatedAs($user);
+    expect($user->refresh()->recoveryCodes())->not->toContain('test-recovery-code');
+
+    $this->post(route('logout'));
+
+    $this
+        ->withSession(['login.id' => $user->id])
+        ->from(route('two-factor.login'))
+        ->post(route('two-factor.login.store'), [
+            'recovery_code' => 'test-recovery-code',
+        ])
+        ->assertRedirect(route('two-factor.login'))
+        ->assertSessionHasErrors('recovery_code');
+
+    $this->assertGuest();
 });
 
 test('users can not authenticate with invalid password', function () {

@@ -3,7 +3,10 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
+use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
 use Laravel\Fortify\Features;
+
+use function Pest\Laravel\mock;
 
 test('security page is displayed', function () {
     $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
@@ -65,6 +68,71 @@ test('security page reports confirmed two factor authentication', function () {
             ->where('requiresConfirmation', true),
         );
 });
+
+test('two factor authentication can be enabled and confirmed', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->post(route('two-factor.enable'))
+        ->assertRedirect();
+
+    $user->refresh();
+
+    expect($user->two_factor_secret)->not->toBeNull()
+        ->and($user->two_factor_recovery_codes)->not->toBeNull()
+        ->and($user->two_factor_confirmed_at)->toBeNull();
+
+    mock(TwoFactorAuthenticationProvider::class)
+        ->shouldReceive('verify')
+        ->once()
+        ->andReturnTrue();
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->post(route('two-factor.confirm'), [
+            'code' => '123456',
+        ])
+        ->assertRedirect()
+        ->assertSessionHas('status', 'two-factor-authentication-confirmed');
+
+    expect($user->refresh()->two_factor_confirmed_at)->not->toBeNull();
+});
+
+test('two factor recovery codes can be viewed and regenerated', function () {
+    $user = User::factory()->withTwoFactor()->create();
+    $originalRecoveryCodes = $user->recoveryCodes();
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->getJson(route('two-factor.recovery-codes'))
+        ->assertOk()
+        ->assertExactJson($originalRecoveryCodes);
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->post(route('two-factor.regenerate-recovery-codes'))
+        ->assertRedirect();
+
+    expect($user->refresh()->recoveryCodes())
+        ->toHaveCount(8)
+        ->not->toBe($originalRecoveryCodes);
+});
+
+test('two factor management endpoints require recent password confirmation', function (string $method, string $routeName) {
+    $user = User::factory()->withTwoFactor()->create();
+
+    $this->actingAs($user)
+        ->call($method, route($routeName))
+        ->assertRedirect(route('password.confirm'));
+})->with([
+    'enable' => ['POST', 'two-factor.enable'],
+    'disable' => ['DELETE', 'two-factor.disable'],
+    'QR code' => ['GET', 'two-factor.qr-code'],
+    'secret key' => ['GET', 'two-factor.secret-key'],
+    'recovery codes' => ['GET', 'two-factor.recovery-codes'],
+    'regenerate recovery codes' => ['POST', 'two-factor.regenerate-recovery-codes'],
+]);
 
 test('password can be updated', function () {
     $user = User::factory()->create();
