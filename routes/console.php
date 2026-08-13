@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ContactConsent;
 use App\Models\DailySiteMetric;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -10,5 +11,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('model:prune', [
-    '--model' => [DailySiteMetric::class],
+    '--model' => [ContactConsent::class, DailySiteMetric::class],
 ])->daily()->withoutOverlapping();

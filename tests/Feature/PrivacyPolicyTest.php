@@ -10,7 +10,7 @@ test('privacy policy is available in Spanish and English', function (string $rou
         ->assertInertia(fn (Assert $page) => $page
             ->component('PrivacyPolicy')
             ->where('locale', $locale)
-            ->where('policyVersion', '1.1')
+            ->where('policyVersion', '1.2')
             ->where('seo.title', $title),
         );
 })->with([
@@ -37,3 +37,13 @@ test('privacy routes render canonical and language alternates', function (string
     'Spanish' => ['privacy', 'privacy'],
     'English' => ['privacy.en', 'privacy.en'],
 ]);
+
+test('privacy policy discloses minimal consent evidence and its retention period', function () {
+    $policyCopy = file_get_contents(resource_path('js/lib/privacy-policy-translations.ts'));
+
+    expect($policyCopy)
+        ->toContain('huella HMAC-SHA256 no reversible')
+        ->toContain('non-reversible HMAC-SHA256 fingerprint')
+        ->toContain('se conservará durante 12 meses')
+        ->toContain('will be retained for 12 months');
+});

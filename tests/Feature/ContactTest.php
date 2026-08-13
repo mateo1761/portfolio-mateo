@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\ContactMessage;
+use App\Models\ContactConsent;
 use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
@@ -131,9 +132,17 @@ test('contact form sends a message to the configured recipient', function () {
             && $message->name === 'Portfolio Visitor'
             && $message->email === 'visitor@example.com'
             && $message->contactSubject === 'Laravel opportunity'
-            && $message->policyVersion === '1.1'
+            && $message->policyVersion === '1.2'
             && $message->formLocale === 'es';
     });
+
+    $consent = ContactConsent::query()->sole();
+
+    expect($consent->email_hash)
+        ->toBe(hash_hmac('sha256', 'visitor@example.com', (string) config('privacy.consent_hash_key')))
+        ->not->toContain('visitor@example.com')
+        ->and($consent->policy_version)->toBe('1.2')
+        ->and($consent->locale)->toBe('es');
 });
 
 test('contact mailable renders escaped content and reply information', function () {

@@ -33,7 +33,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             'Esta política explica, en lenguaje claro, cómo Mateo Quintero Zapata trata los datos personales recibidos mediante Portafolio Mateo.',
         versionLabel: 'Versión',
         effectiveDateLabel: 'Vigente desde',
-        effectiveDate: '5 de agosto de 2026',
+        effectiveDate: '12 de agosto de 2026',
         sections: [
             {
                 heading: '1. Responsable del tratamiento',
@@ -59,13 +59,15 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             {
                 heading: '4. Autorización y evidencia',
                 paragraphs: [
-                    'El envío exige una casilla de autorización previa, expresa e informada, desmarcada inicialmente. Como evidencia proporcional, el correo generado incluye el estado de aceptación, la fecha y hora UTC, el idioma y la versión de esta política. El portafolio no crea una base de datos de mensajes ni de consentimientos.',
+                    'El envío exige una casilla de autorización previa, expresa e informada, desmarcada inicialmente. Como evidencia proporcional, el correo generado incluye el estado de aceptación, la fecha y hora UTC, el idioma y la versión de esta política.',
+                    'Además, se conserva un registro mínimo separado con un identificador UUID, una huella HMAC-SHA256 no reversible del correo normalizado, la fecha y hora UTC, el idioma y la versión de esta política. Este registro no contiene el nombre, correo legible, asunto, mensaje, dirección IP ni agente del navegador.',
                 ],
             },
             {
                 heading: '5. Conservación y eliminación',
                 items: [
                     'Los correos de contacto se conservarán durante un mes contado desde la última interacción y después se eliminarán, salvo que surja una obligación legal o una relación contractual que requiera informar una finalidad y plazo diferentes.',
+                    'El registro mínimo de autorización se conservará durante 12 meses desde el envío y después se eliminará automáticamente. Su única finalidad es permitir demostrar la autorización sin conservar el contenido del mensaje ni el correo en texto legible.',
                     'Los logs operativos y backups ordinarios se conservarán hasta 90 días.',
                     'Los registros asociados con un incidente documentado podrán conservarse hasta un año.',
                     'Los datos temporales de sesión, CSRF, caché y limitación de solicitudes expiran conforme a la configuración técnica del servicio.',
@@ -124,7 +126,7 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             'This policy explains in plain language how Mateo Quintero Zapata processes personal data received through Portafolio Mateo.',
         versionLabel: 'Version',
         effectiveDateLabel: 'Effective from',
-        effectiveDate: 'August 5, 2026',
+        effectiveDate: 'August 12, 2026',
         sections: [
             {
                 heading: '1. Data controller',
@@ -150,13 +152,15 @@ export const privacyPolicyCopy: Record<PortfolioLocale, PrivacyPolicyCopy> = {
             {
                 heading: '4. Authorization and evidence',
                 paragraphs: [
-                    'Submission requires prior, express, and informed authorization through a checkbox that is initially unchecked. As proportionate evidence, the generated email includes the acceptance status, UTC date and time, language, and policy version. The portfolio does not create a database of messages or consent records.',
+                    'Submission requires prior, express, and informed authorization through a checkbox that is initially unchecked. As proportionate evidence, the generated email includes the acceptance status, UTC date and time, language, and policy version.',
+                    'A separate minimal record is also retained with a UUID, a non-reversible HMAC-SHA256 fingerprint of the normalized email address, the UTC date and time, language, and this policy version. This record does not contain the name, readable email address, subject, message, IP address, or browser user agent.',
                 ],
             },
             {
                 heading: '5. Retention and deletion',
                 items: [
                     'Contact emails will be kept for one month from the last interaction and then deleted, unless a legal obligation or contractual relationship requires a different disclosed purpose and period.',
+                    'The minimal authorization record will be retained for 12 months after submission and then automatically deleted. Its sole purpose is to demonstrate authorization without retaining the message content or a readable email address.',
                     'Ordinary operational logs and backups will be retained for up to 90 days.',
                     'Records associated with a documented incident may be retained for up to one year.',
                     'Temporary session, CSRF, cache, and rate-limiting data expire according to the service’s technical configuration.',
